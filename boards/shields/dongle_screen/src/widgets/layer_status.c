@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 
+#include <ctype.h>
 #include <zephyr/kernel.h>
 #include <zephyr/logging/log.h>
 LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
@@ -37,7 +38,9 @@ static void set_layer_symbol(lv_obj_t *label, struct layer_status_state state)
     {
         char text[13] = {};
 
-        snprintf(text, sizeof(text), "%s", state.label);
+	for (uint8_t i = 0; i < sizeof(text); i++) {
+	    text[i] = toupper(state.label[i]);
+	}
 
         lv_label_set_text(label, text);
     }

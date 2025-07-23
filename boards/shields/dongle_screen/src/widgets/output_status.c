@@ -73,22 +73,16 @@ static void set_status_symbol(struct zmk_widget_output_status *widget, struct ou
     switch (state.selected_endpoint.transport)
     {
     case ZMK_TRANSPORT_USB:
-        snprintf(transport_text, sizeof(transport_text), "> #%s USB#\n#%s BLE#", usb_color, ble_color);
+        snprintf(transport_text, sizeof(transport_text), "> #%s USB#\n#%s BLE %d#", usb_color, ble_color, state.active_profile_index + 1);
         break;
     case ZMK_TRANSPORT_BLE:
-        snprintf(transport_text, sizeof(transport_text), "#%s USB#\n> #%s BLE#", usb_color, ble_color);
+        snprintf(transport_text, sizeof(transport_text), "#%s USB#\n> #%s BLE %d#", usb_color, ble_color, state.active_profile_index + 1);
         break;
     }
 
     lv_label_set_recolor(widget->transport_label, true);
     lv_obj_set_style_text_align(widget->transport_label, LV_TEXT_ALIGN_RIGHT, 0);
     lv_label_set_text(widget->transport_label, transport_text);
-
-    char ble_text[12];
-
-    snprintf(ble_text, sizeof(ble_text), "%d", state.active_profile_index + 1);
-    // lv_obj_set_style_text_align(widget->ble_label, LV_TEXT_ALIGN_RIGHT, 0);
-    lv_label_set_text(widget->ble_label, ble_text);
 }
 
 static void output_status_update_cb(struct output_status_state state)
@@ -114,9 +108,6 @@ int zmk_widget_output_status_init(struct zmk_widget_output_status *widget, lv_ob
 
     widget->transport_label = lv_label_create(widget->obj);
     lv_obj_align(widget->transport_label, LV_ALIGN_TOP_RIGHT, -10, 10);
-
-    widget->ble_label = lv_label_create(widget->obj);
-    lv_obj_align(widget->ble_label, LV_ALIGN_TOP_RIGHT, -10, 56);
 
     sys_slist_append(&widgets, &widget->node);
 
