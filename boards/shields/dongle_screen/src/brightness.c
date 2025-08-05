@@ -143,12 +143,19 @@ void set_screen_brightness(uint8_t value, bool ambient)
 
 #if CONFIG_DONGLE_SCREEN_IDLE_TIMEOUT_S > 0 || CONFIG_DONGLE_SCREEN_BRIGHTNESS_KEYBOARD_CONTROL
 // --- Brightness logic ---
-static bool screen_on = true;
+typedef enum  {
+    OFF = 0,
+    ON = 1,
+    SLEEP = 2,
+} screen_state_t;
+
+static screen_state_t screen_state = ON;
+
 // --- Screen on/off ---
 
-static void screen_set_on(bool on)
+static void screen_set(screen_state_t new_state)
 {
-    if (on && !screen_on)
+    if (new_state == ON && screen_state != ON)
     {
         // TODO: Decide what to do when current_brightness + brightness_modifier is less or equals than min_brightness
         // Currently it can be that the screen is only turned on after the next ambient reading
@@ -163,18 +170,26 @@ static void screen_set_on(bool on)
         }
 
         //
-
+        led_on(pwm_leds_dev, DISP_BL);
         fade_to_brightness(min_brightness, clamp_brightness(current_brightness + brightness_modifier));
-        screen_on = true;
         LOG_INF("Screen on (smooth)");
     }
-    else if (!on && screen_on)
+    else if (screen_state == ON)
     {
-        fade_to_brightness(clamp_brightness(current_brightness + brightness_modifier), min_brightness);
-        screen_on = false;
-        LOG_INF("Screen off (smooth)");
+        if (new_state == OFF)
+        {
+            led_off(pwm_leds_dev, DISP_BL);
+            LOG_INF("Screen off (abrupt)");
+        }
+        else if (new_state == SLEEP)
+        {
+            fade_to_brightness(clamp_brightness(current_brightness + brightness_modifier), min_brightness);
+            LOG_INF("Screen off (smooth)");
+        }
     }
+    screen_state = new_state;
 }
+
 
 #endif
 
@@ -186,7 +201,7 @@ void screen_idle_thread(void)
 {
     while (1)
     {
-        if (screen_on)
+        if (screen_state == ON)
         {
             int64_t now = k_uptime_get();
             int64_t elapsed = now - last_activity;
@@ -194,7 +209,7 @@ void screen_idle_thread(void)
 
             if (remaining <= 0)
             {
-                screen_set_on(false);
+                screen_set(SLEEP);
                 // After turning off, sleep until next activity (key event will wake screen)
                 k_sleep(K_FOREVER);
             }
@@ -227,6 +242,8 @@ static void increase_brightness(void)
     int16_t next = (int16_t)current_brightness + brightness_modifier + CONFIG_DONGLE_SCREEN_BRIGHTNESS_STEP;
     LOG_DBG("Next brightness would be: %d Maximum brightness is: %d", next, max_brightness);
 
+    screen_set(ON);
+
     if (next <= max_brightness)
     {
         brightness_modifier += CONFIG_DONGLE_SCREEN_BRIGHTNESS_STEP;
@@ -247,9 +264,7 @@ static void increase_brightness(void)
             set_screen_brightness(current_brightness, false);
         }
         else
-        {
             LOG_DBG("Brightness modifier cannot be increased further.");
-        }
     }
 }
 
@@ -310,23 +325,26 @@ static int key_listener(const zmk_event_t *eh)
             decrease_brightness();
             return 0;
         }
+        else if (ev->keycode == CONFIG_DONGLE_SCREEN_BACKLIGHT_TOGGLE_KEYCODE)
+        {
+            LOG_INF("Backlight TOGGLE key recognized!");
+            if (screen_state == ON)
+                screen_set(OFF);
+            else
+                screen_set(ON);
+            return 0;
+        }
 #endif
     }
 
-#if CONFIG_DONGLE_SCREEN_IDLE_TIMEOUT_S > 0
     last_activity = k_uptime_get();
-    if (!screen_on)
+    if (screen_state != OFF)
     {
-        screen_set_on(true);
+        screen_set(ON);
+#if CONFIG_DONGLE_SCREEN_IDLE_TIMEOUT_S > 0
         k_wakeup(screen_idle_tid);
-    }
-#else
-    // Without idle thread: just turn on screen
-    if (!screen_on)
-    {
-        screen_set_on(true);
-    }
 #endif
+    }
     return 0;
 }
 
@@ -370,13 +388,6 @@ static void ambient_light_thread(void)
         if (!device_is_ready(ambient_sensor))
         {
             LOG_ERR("Ambient light sensor not ready!");
-            // TODO: DELETE ME ONLY FOR TESTING!
-            /*if (screen_on)
-            {
-                uint8_t new_brightness = 5;
-                set_screen_brightness(new_brightness, true);
-                last_brightness = new_brightness;
-            }*/
             k_sleep(K_SECONDS(5));
             continue;
         }
@@ -409,7 +420,7 @@ static void ambient_light_thread(void)
                         LOG_DBG("Ambient light: %d (raw) -> brightness %d + modifier %d = %d", val.val1, new_brightness, brightness_modifier, new_brightness + brightness_modifier);
                     }
 
-                    if (screen_on)
+                    if (screen_state == ON)
                     {
                         set_screen_brightness(new_brightness, true);
                     }
