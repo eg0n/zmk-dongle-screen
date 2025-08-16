@@ -17,6 +17,7 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 #include <zmk/events/usb_conn_state_changed.h>
 #include <zmk/event_manager.h>
 #include <zmk/usb.h>
+#include <fonts.h>
 
 #include "battery_status.h"
 
@@ -52,12 +53,9 @@ static void draw_battery(lv_obj_t *canvas, uint8_t level, bool usb_present) {
         lv_canvas_fill_bg(canvas, lv_color_white(), LV_OPA_COVER);
     }
 
-    
     lv_draw_rect_dsc_t rect_fill_dsc;
     lv_draw_rect_dsc_init(&rect_fill_dsc);
     rect_fill_dsc.bg_color = lv_color_black();
-
-
 
     lv_canvas_set_px(canvas, 0, 0, lv_color_black());
     lv_canvas_set_px(canvas, 0, 4, lv_color_black());
@@ -81,31 +79,24 @@ static void set_battery_symbol(lv_obj_t *widget, struct battery_state state) {
     LOG_DBG("source: %d, level: %d, usb: %d", state.source, state.level, state.usb_present);
     lv_obj_t *symbol = battery_objects[state.source].symbol;
     lv_obj_t *label = battery_objects[state.source].label;
+    lv_obj_set_style_text_font(label, &PixelOperatorMono32, 0);
 
     draw_battery(symbol, state.level, state.usb_present);
     
-    if (state.level > 0) {
-        lv_obj_set_style_text_color(label, lv_color_white(), 0);
+    if (state.level == 0) {
+        lv_obj_set_style_text_color(label, lv_palette_main(LV_PALETTE_RED), 0);
+        lv_label_set_text(label, "  X");
+    } else if (state.level <= 20) {
+        lv_obj_set_style_text_color(label, lv_palette_main(LV_PALETTE_RED), 0);
         lv_label_set_text_fmt(label, "%4u", state.level);
-    } else {
-        lv_obj_set_style_text_color(label, lv_palette_main(LV_PALETTE_RED), 0);
-        lv_label_set_text(label, "X");
-    }
-
-    if (state.level < 1)
-    {
-        lv_obj_set_style_text_color(label, lv_palette_main(LV_PALETTE_RED), 0);
-        lv_label_set_text(label, "X");
-    } else if (state.level <= 10) {
+    } else if (state.level <= 50) {
         lv_obj_set_style_text_color(label, lv_palette_main(LV_PALETTE_YELLOW), 0);
         lv_label_set_text_fmt(label, "%4u", state.level);
     } else {
         lv_obj_set_style_text_color(label, lv_color_white(), 0);
         lv_label_set_text_fmt(label, "%4u", state.level);
     }
-    
-    
-    
+
     lv_obj_clear_flag(symbol, LV_OBJ_FLAG_HIDDEN);
     lv_obj_move_foreground(symbol);
     lv_obj_clear_flag(label, LV_OBJ_FLAG_HIDDEN);
@@ -163,7 +154,7 @@ ZMK_SUBSCRIPTION(widget_dongle_battery_status, zmk_usb_conn_state_changed);
 int zmk_widget_dongle_battery_status_init(struct zmk_widget_dongle_battery_status *widget, lv_obj_t *parent) {
     widget->obj = lv_obj_create(parent);
 
-    lv_obj_set_size(widget->obj, 240, 40);
+    lv_obj_set_size(widget->obj, 240, 50);
     
     for (int i = 0; i < ZMK_SPLIT_CENTRAL_PERIPHERAL_COUNT + SOURCE_OFFSET; i++) {
         lv_obj_t *image_canvas = lv_canvas_create(widget->obj);
@@ -172,7 +163,7 @@ int zmk_widget_dongle_battery_status_init(struct zmk_widget_dongle_battery_statu
         lv_canvas_set_buffer(image_canvas, battery_image_buffer[i], 102, 5, LV_IMG_CF_TRUE_COLOR);
 
         lv_obj_align(image_canvas, LV_ALIGN_BOTTOM_MID, -60 +(i * 120), -8);
-        lv_obj_align(battery_label, LV_ALIGN_TOP_MID, -60 +(i * 120), 0);
+        lv_obj_align(battery_label, LV_ALIGN_TOP_MID, -70 +(i * 120), 0);
 
         lv_obj_add_flag(image_canvas, LV_OBJ_FLAG_HIDDEN);
         lv_obj_add_flag(battery_label, LV_OBJ_FLAG_HIDDEN);

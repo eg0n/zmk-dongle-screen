@@ -59,6 +59,7 @@ int zmk_widget_wpm_status_init(struct zmk_widget_wpm_status *widget, lv_obj_t *p
 
     widget->wpm_label = lv_label_create(widget->obj);
     lv_obj_align(widget->wpm_label, LV_ALIGN_TOP_LEFT, 0, 0);
+    lv_obj_set_style_text_font(widget->obj, &PixelOperatorMono32, 0);
 
     // Only here as a sample
     // widget->font_test = lv_label_create(widget->obj);

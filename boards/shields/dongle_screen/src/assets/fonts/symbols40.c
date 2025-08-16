@@ -1,22 +1,16 @@
-/*******************************************************************************
- * Size: 40 px
- * Bpp: 4
- * Opts: --bpp 4 --size 40 --no-compress --use-color-info --font JetBrainsMonoNerdFontMono-Regular.ttf --symbols -^󰕓󰘳󰘴󰘵󰘶󰘲󰃚󰃛󰃜󰃝󰃞󰃟󰃠󰃡󰳲 --format lvgl -o NerdFonts_Regular_40.c
- ******************************************************************************/
-
 #include "lvgl.h"
 
-#ifndef NERDFONTS_REGULAR_40
-#define NERDFONTS_REGULAR_40 1
+#ifndef SYMBOLS_40
+#define SYMBOLS_40 1
 #endif
 
-#if NERDFONTS_REGULAR_40
+#if SYMBOLS_40
 
 /*-----------------
  *    BITMAPS
  *----------------*/
 
-/*Store the image of the glyphs*/
+/*Store the image of the symbols*/
 static LV_ATTRIBUTE_LARGE_CONST const uint8_t glyph_bitmap[] = {
     /* U+002D "-" */
     0x14, 0x44, 0x44, 0x44, 0x44, 0x44, 0x41, 0x6f,
@@ -894,7 +888,7 @@ static lv_font_fmt_txt_dsc_t font_dsc = {
 #endif
 };
 
-extern const lv_font_t lv_font_montserrat_40;
+extern const lv_font_t PixelOperatorMono64;
 
 /*-----------------
  *  PUBLIC FONT
@@ -902,9 +896,9 @@ extern const lv_font_t lv_font_montserrat_40;
 
 /*Initialize a public general font descriptor*/
 #if LVGL_VERSION_MAJOR >= 8
-const lv_font_t NerdFonts_Regular_40 = {
+const lv_font_t symbols_40 = {
 #else
-lv_font_t NerdFonts_Regular_40 = {
+lv_font_t symbols_40 = {
 #endif
     .get_glyph_dsc = lv_font_get_glyph_dsc_fmt_txt, /*Function pointer to get glyph's data*/
     .get_glyph_bitmap = lv_font_get_bitmap_fmt_txt, /*Function pointer to get glyph's bitmap*/
@@ -919,9 +913,9 @@ lv_font_t NerdFonts_Regular_40 = {
 #endif
     .dsc = &font_dsc, /*The custom font data. Will be accessed by `get_glyph_bitmap/dsc` */
 #if LV_VERSION_CHECK(8, 2, 0) || LVGL_VERSION_MAJOR >= 9
-    .fallback = &lv_font_montserrat_40,
+    .fallback = &PixelOperatorMono64,
 #endif
     .user_data = NULL,
 };
 
-#endif /*#if NERDFONTS_REGULAR_40*/
+#endif /*#if SYMBOLS_40*/

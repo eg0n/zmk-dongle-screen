@@ -19,6 +19,8 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 #include <zmk/endpoints.h>
 
 #include "output_status.h"
+#include <fonts.h>
+
 
 static sys_slist_t widgets = SYS_SLIST_STATIC_INIT(&widgets);
 
@@ -105,6 +107,7 @@ int zmk_widget_output_status_init(struct zmk_widget_output_status *widget, lv_ob
 {
     widget->obj = lv_obj_create(parent);
     lv_obj_set_size(widget->obj, 240, 77);
+    lv_obj_set_style_text_font(widget->obj, &PixelOperatorMono32, 0);
 
     widget->transport_label = lv_label_create(widget->obj);
     lv_obj_align(widget->transport_label, LV_ALIGN_TOP_RIGHT, -10, 10);

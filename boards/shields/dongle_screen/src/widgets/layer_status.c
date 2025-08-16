@@ -15,6 +15,7 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 #include <zmk/event_manager.h>
 #include <zmk/endpoints.h>
 #include <zmk/keymap.h>
+#include <fonts.h>
 
 static sys_slist_t widgets = SYS_SLIST_STATIC_INIT(&widgets);
 
@@ -69,7 +70,7 @@ int zmk_widget_layer_status_init(struct zmk_widget_layer_status *widget, lv_obj_
 {
     widget->obj = lv_label_create(parent);
 
-    lv_obj_set_style_text_font(widget->obj, &lv_font_montserrat_40, 0);
+    lv_obj_set_style_text_font(widget->obj, &PixelOperatorMono64, 0);
 
     sys_slist_append(&widgets, &widget->node);
 
