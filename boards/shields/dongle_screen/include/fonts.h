@@ -4,4 +4,4 @@
 
 LV_FONT_DECLARE(PixelOperatorMono32);
 LV_FONT_DECLARE(PixelOperatorMono64);
-LV_FONT_DECLARE(symbols_40);
+LV_FONT_DECLARE(material_32);

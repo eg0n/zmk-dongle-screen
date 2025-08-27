@@ -2,6 +2,7 @@
  * Size: 64 px
  * Bpp: 1
  * Opts: --bpp 1 --size 64 --no-compress --stride 1 --align 1 --font PixelOperatorMono.ttf --range 32-127 --format lvgl -o PixelOperatorMono64.c
+ * Font files at https://www.dafont.com/pixel-operator.font
  ******************************************************************************/
 
 #ifdef __has_include
@@ -1266,7 +1267,7 @@ static lv_font_fmt_txt_dsc_t font_dsc = {
 
 };
 
-
+extern const lv_font_t material_32;
 
 /*-----------------
  *  PUBLIC FONT
@@ -1291,7 +1292,7 @@ lv_font_t PixelOperatorMono64 = {
 #endif
     .dsc = &font_dsc,          /*The custom font data. Will be accessed by `get_glyph_bitmap/dsc` */
 #if LV_VERSION_CHECK(8, 2, 0) || LVGL_VERSION_MAJOR >= 9
-    .fallback = NULL,
+    .fallback = &material_32,
 #endif
     .user_data = NULL,
 };
