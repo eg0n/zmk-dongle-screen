@@ -3,5 +3,5 @@
 #include <lvgl.h>
 
 LV_FONT_DECLARE(PixelOperatorMono32);
-LV_FONT_DECLARE(PixelOperatorMono64);
+LV_FONT_DECLARE(PixelOperatorMono48);
 LV_FONT_DECLARE(material_32);
