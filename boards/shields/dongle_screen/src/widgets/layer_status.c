@@ -28,21 +28,12 @@ struct layer_status_state
 static void set_layer_symbol(lv_obj_t *label, struct layer_status_state state)
 {
     if (state.label == NULL)
-    {
-        char text[7] = {};
-
-        sprintf(text, "%i", state.index);
-
-        lv_label_set_text(label, text);
-    }
-    else
-    {
+        lv_label_set_text_fmt(label, "%i", state.index);
+    else {
         char text[13] = {};
-
-	for (uint8_t i = 0; i < sizeof(text); i++) {
-	    text[i] = toupper(state.label[i]);
-	}
-
+        for (uint8_t i = 0; i < sizeof(text); i++) {
+            text[i] = toupper(state.label[i]);
+        }
         lv_label_set_text(label, text);
     }
 }
@@ -69,11 +60,9 @@ ZMK_SUBSCRIPTION(widget_layer_status, zmk_layer_state_changed);
 int zmk_widget_layer_status_init(struct zmk_widget_layer_status *widget, lv_obj_t *parent)
 {
     widget->obj = lv_label_create(parent);
-
     lv_obj_set_style_text_font(widget->obj, &PixelOperatorMono48, 0);
-
+    lv_obj_set_style_text_align(widget->obj, LV_TEXT_ALIGN_RIGHT, 0);
     sys_slist_append(&widgets, &widget->node);
-
     widget_layer_status_init();
     return 0;
 }

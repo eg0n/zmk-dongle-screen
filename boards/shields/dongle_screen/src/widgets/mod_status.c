@@ -56,7 +56,6 @@ int zmk_widget_modifiers_status_init(struct zmk_widget_modifiers_status *widget,
                                      lv_obj_t *parent) {
   widget->obj = lv_label_create(parent);
   lv_obj_set_size(widget->obj, 180, 32);
-  lv_obj_align(widget->obj, LV_ALIGN_CENTER, 0, 0);
   lv_obj_set_style_text_font(widget->obj, &material_32, 0);
   lv_obj_set_style_text_align(widget->obj, LV_TEXT_ALIGN_CENTER, 0);
   sys_slist_append(&widgets, &widget->node);
