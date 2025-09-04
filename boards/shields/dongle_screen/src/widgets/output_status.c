@@ -9,14 +9,14 @@
 #include <zephyr/logging/log.h>
 LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
+#include <zmk/ble.h>
 #include <zmk/display.h>
+#include <zmk/endpoints.h>
 #include <zmk/event_manager.h>
 #include <zmk/events/ble_active_profile_changed.h>
 #include <zmk/events/endpoint_changed.h>
 #include <zmk/events/usb_conn_state_changed.h>
 #include <zmk/usb.h>
-#include <zmk/ble.h>
-#include <zmk/endpoints.h>
 
 #include "output_status.h"
 #include <fonts.h>
@@ -25,50 +25,53 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 static sys_slist_t widgets = SYS_SLIST_STATIC_INIT(&widgets);
 
 struct output_status_state {
-  struct zmk_endpoint_instance selected_endpoint;
-  int active_profile_index;
-  bool active_profile_connected;
-  bool active_profile_bonded;
-  bool usb_is_hid_ready;
+    struct zmk_endpoint_instance selected_endpoint;
+    int active_profile_index;
+    bool active_profile_connected;
+    bool active_profile_bonded;
+    bool usb_is_hid_ready;
 };
 
 static struct output_status_state get_state(const zmk_event_t *_eh) {
-  return (struct output_status_state){
-      .selected_endpoint = zmk_endpoints_selected(), // 0 = USB , 1 = BLE
-      .active_profile_index =
-          zmk_ble_active_profile_index(),
-      .active_profile_connected =
-          zmk_ble_active_profile_is_connected(),
-      .active_profile_bonded =
-          !zmk_ble_active_profile_is_open(),
-      .usb_is_hid_ready = zmk_usb_is_hid_ready()};
+    return (struct output_status_state){
+        .selected_endpoint = zmk_endpoints_selected(), // 0 = USB , 1 = BLE
+        .active_profile_index = zmk_ble_active_profile_index(),
+        .active_profile_connected = zmk_ble_active_profile_is_connected(),
+        .active_profile_bonded = !zmk_ble_active_profile_is_open(),
+        .usb_is_hid_ready = zmk_usb_is_hid_ready()};
 }
 
 static void set_status_symbol(struct zmk_widget_output_status *widget,
                               struct output_status_state state) {
-  switch (state.selected_endpoint.transport) {
-  case ZMK_TRANSPORT_USB:
-    lv_label_set_text_fmt(widget->obj, "#00ff00 " USB "#");
-    break;
-  case ZMK_TRANSPORT_BLE:
-    if (state.active_profile_bonded) {
-      if (state.active_profile_connected) {
-        lv_label_set_text_fmt(widget->obj, "%i #00ff00 " ANDROID_WIFI_3_BAR "#", state.active_profile_index);
-      } else {
-        lv_label_set_text_fmt(widget->obj, "%i #0000ff " ANDROID_WIFI_3_BAR_OFF "#", state.active_profile_index);
-      }
-    } else {
-      lv_label_set_text_fmt(widget->obj, "%i #ff0000 " ANDROID_WIFI_3_BAR_QUESTION "#", state.active_profile_index);
+    switch (state.selected_endpoint.transport) {
+    case ZMK_TRANSPORT_USB:
+        lv_label_set_text_fmt(widget->obj, "#00ff00 " USB "#");
+        break;
+    case ZMK_TRANSPORT_BLE:
+        if (state.active_profile_bonded) {
+            if (state.active_profile_connected) {
+                lv_label_set_text_fmt(widget->obj,
+                                      "%i #00ff00 " ANDROID_WIFI_3_BAR "#",
+                                      state.active_profile_index);
+            } else {
+                lv_label_set_text_fmt(widget->obj,
+                                      "%i #0000ff " ANDROID_WIFI_3_BAR_OFF "#",
+                                      state.active_profile_index);
+            }
+        } else {
+            lv_label_set_text_fmt(widget->obj,
+                                  "%i #ff0000 " ANDROID_WIFI_3_BAR_QUESTION "#",
+                                  state.active_profile_index);
+        }
+        break;
     }
-    break;
-  }
 }
 
 static void output_status_update_cb(struct output_status_state state) {
-  struct zmk_widget_output_status *widget;
-  SYS_SLIST_FOR_EACH_CONTAINER(&widgets, widget, node) {
-    set_status_symbol(widget, state);
-  }
+    struct zmk_widget_output_status *widget;
+    SYS_SLIST_FOR_EACH_CONTAINER(&widgets, widget, node) {
+        set_status_symbol(widget, state);
+    }
 }
 
 ZMK_DISPLAY_WIDGET_LISTENER(widget_output_status, struct output_status_state,
@@ -80,17 +83,17 @@ ZMK_SUBSCRIPTION(widget_output_status, zmk_usb_conn_state_changed);
 // output_status.c
 int zmk_widget_output_status_init(struct zmk_widget_output_status *widget,
                                   lv_obj_t *parent) {
-  widget->obj = lv_label_create(parent);
-  lv_obj_set_size(widget->obj, 160, 60);
-  lv_obj_set_style_text_font(widget->obj, &PixelOperatorMono32, 0);
-  lv_obj_set_style_text_align(widget->obj, LV_TEXT_ALIGN_RIGHT, 0);
-  lv_label_set_recolor(widget->obj, true);
-  sys_slist_append(&widgets, &widget->node);
-  widget_output_status_init();
-  return 0;
+    widget->obj = lv_label_create(parent);
+    lv_obj_set_size(widget->obj, 160, 60);
+    lv_obj_set_style_text_font(widget->obj, &PixelOperatorMono32, 0);
+    lv_obj_set_style_text_align(widget->obj, LV_TEXT_ALIGN_RIGHT, 0);
+    lv_label_set_recolor(widget->obj, true);
+    sys_slist_append(&widgets, &widget->node);
+    widget_output_status_init();
+    return 0;
 }
 
 lv_obj_t *
 zmk_widget_output_status_obj(struct zmk_widget_output_status *widget) {
-  return widget->obj;
+    return widget->obj;
 }
