@@ -54,11 +54,15 @@ static void set_battery_symbol(lv_obj_t *label) {
             if (state->level == 0)
                 textpos += sprintf(
                     offset, "#ff0000 " BATTERY_ANDROID_FRAME_QUESTION "# X\n");
-            else if (state->level < 17)
+            else if (state->level < 13)
+                textpos +=
+                    sprintf(offset, "#ff0000 " BATTERY_ANDROID_0 "# %i\n",
+                            state->level);
+            else if (state->level < 25)
                 textpos +=
                     sprintf(offset, "#ff0000 " BATTERY_ANDROID_FRAME_1 "# %i\n",
                             state->level);
-            else if (state->level < 33)
+            else if (state->level < 38)
                 textpos +=
                     sprintf(offset, "#ffff00 " BATTERY_ANDROID_FRAME_2 "# %i\n",
                             state->level);
@@ -66,17 +70,21 @@ static void set_battery_symbol(lv_obj_t *label) {
                 textpos +=
                     sprintf(offset, "#ffff00 " BATTERY_ANDROID_FRAME_3 "# %i\n",
                             state->level);
-            else if (state->level < 67)
+            else if (state->level < 63)
                 textpos +=
                     sprintf(offset, "#00ff00 " BATTERY_ANDROID_FRAME_4 "# %i\n",
                             state->level);
-            else if (state->level < 83)
+            else if (state->level < 75)
                 textpos +=
                     sprintf(offset, "#00ff00 " BATTERY_ANDROID_FRAME_5 "# %i\n",
                             state->level);
-            else
+            else if (state->level < 88)
                 textpos +=
                     sprintf(offset, "#00ff00 " BATTERY_ANDROID_FRAME_6 "# %i\n",
+                            state->level);
+            else
+                textpos +=
+                    sprintf(offset, "#00ff00 " BATTERY_ANDROID_FRAME_FULL "# %i\n",
                             state->level);
         }
     }

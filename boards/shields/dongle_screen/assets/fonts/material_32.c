@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Size: 32 px
  * Bpp: 2
- * Opts: --bpp 2 --size 32 --no-compress --stride 1 --align 1 --font MaterialSymbolsOutlined[FILL,GRAD,opsz,wght].ttf --range 62027-62039,57768,57769,58895,57824,60134,60135,58136,60136,58866,61206-61211 --format lvgl -o material_32.c
+ * Opts: --bpp 2 --size 32 --no-compress --use-color-info --stride 1 --align 1 --font MaterialSymbolsOutlined[FILL,GRAD,opsz,wght].ttf --range 62027-62039,57768,57769,58895,57824,60134,60135,58136,60136,58866,61206-61211,62221 --format lvgl -o material_32.c
  * Font files at https://github.com/google/material-design-icons/tree/master/variablefont
  ******************************************************************************/
 
@@ -569,6 +569,23 @@ static LV_ATTRIBUTE_LARGE_CONST const uint8_t glyph_bitmap[] = {
     0xf, 0x84, 0xbc, 0x0, 0x0, 0x0, 0x0, 0x1,
     0xf4, 0x7, 0xfa, 0xaa, 0xaa, 0xaa, 0xaa, 0xbf,
     0x0, 0x3f, 0xff, 0xff, 0xff, 0xff, 0xff, 0xe0,
+    0x0, 0xbf, 0xff, 0xff, 0xff, 0xff, 0xf4, 0x0,
+
+    /* U+F30D "" BATTERY_ANDROID_0 */
+    0xb, 0xff, 0xff, 0xff, 0xff, 0xff, 0x40, 0x2,
+    0xff, 0xff, 0xff, 0xff, 0xff, 0xfe, 0x0, 0x7f,
+    0xaa, 0xaa, 0xaa, 0xaa, 0xab, 0xf0, 0xb, 0xc0,
+    0x0, 0x0, 0x0, 0x0, 0x1f, 0x40, 0xbc, 0x0,
+    0x0, 0x0, 0x0, 0x0, 0xf8, 0x4b, 0xc0, 0x0,
+    0x0, 0x0, 0x0, 0xf, 0x8f, 0xbc, 0x0, 0x0,
+    0x0, 0x0, 0x0, 0xf8, 0xfb, 0xc0, 0x0, 0x0,
+    0x0, 0x0, 0xf, 0x8f, 0xbc, 0x0, 0x0, 0x0,
+    0x0, 0x0, 0xf8, 0xfb, 0xc0, 0x0, 0x0, 0x0,
+    0x0, 0xf, 0x8f, 0xbc, 0x0, 0x0, 0x0, 0x0,
+    0x0, 0xf8, 0xeb, 0xc0, 0x0, 0x0, 0x0, 0x0,
+    0xf, 0x80, 0xbc, 0x0, 0x0, 0x0, 0x0, 0x1,
+    0xf4, 0x7, 0xfa, 0xaa, 0xaa, 0xaa, 0xaa, 0xbf,
+    0x0, 0x3f, 0xff, 0xff, 0xff, 0xff, 0xff, 0xe0,
     0x0, 0xbf, 0xff, 0xff, 0xff, 0xff, 0xf4, 0x0
 };
 
@@ -606,7 +623,8 @@ static const lv_font_fmt_txt_glyph_dsc_t glyph_dsc[] = {
     {.bitmap_index = 3347, .adv_w = 512, .box_w = 30, .box_h = 16, .ofs_x = 1, .ofs_y = 8},
     {.bitmap_index = 3467, .adv_w = 512, .box_w = 30, .box_h = 16, .ofs_x = 1, .ofs_y = 8},
     {.bitmap_index = 3587, .adv_w = 512, .box_w = 30, .box_h = 16, .ofs_x = 1, .ofs_y = 8},
-    {.bitmap_index = 3707, .adv_w = 512, .box_w = 30, .box_h = 16, .ofs_x = 1, .ofs_y = 8}
+    {.bitmap_index = 3707, .adv_w = 512, .box_w = 30, .box_h = 16, .ofs_x = 1, .ofs_y = 8},
+    {.bitmap_index = 3827, .adv_w = 512, .box_w = 30, .box_h = 16, .ofs_x = 1, .ofs_y = 8}
 };
 
 /*---------------------
@@ -615,19 +633,17 @@ static const lv_font_fmt_txt_glyph_dsc_t glyph_dsc[] = {
 
 static const uint16_t unicode_list_0[] = {
     0x0, 0x1, 0x38, 0x170, 0x44a, 0x467, 0x93e, 0x93f,
-    0x940, 0xd6e, 0xd6f, 0xd70, 0xd71, 0xd72, 0xd73
+    0x940, 0xd6e, 0xd6f, 0xd70, 0xd71, 0xd72, 0xd73, 0x10a3,
+    0x10a4, 0x10a5, 0x10a6, 0x10a7, 0x10a8, 0x10a9, 0x10aa, 0x10ab,
+    0x10ac, 0x10ad, 0x10ae, 0x10af, 0x1165
 };
 
 /*Collect the unicode lists and glyph_id offsets*/
 static const lv_font_fmt_txt_cmap_t cmaps[] =
 {
     {
-        .range_start = 57768, .range_length = 3444, .glyph_id_start = 1,
-        .unicode_list = unicode_list_0, .glyph_id_ofs_list = NULL, .list_length = 15, .type = LV_FONT_FMT_TXT_CMAP_SPARSE_TINY
-    },
-    {
-        .range_start = 62027, .range_length = 13, .glyph_id_start = 16,
-        .unicode_list = NULL, .glyph_id_ofs_list = NULL, .list_length = 0, .type = LV_FONT_FMT_TXT_CMAP_FORMAT0_TINY
+        .range_start = 57768, .range_length = 4454, .glyph_id_start = 1,
+        .unicode_list = unicode_list_0, .glyph_id_ofs_list = NULL, .list_length = 29, .type = LV_FONT_FMT_TXT_CMAP_SPARSE_TINY
     }
 };
 
@@ -652,7 +668,7 @@ static lv_font_fmt_txt_dsc_t font_dsc = {
     .cmaps = cmaps,
     .kern_dsc = NULL,
     .kern_scale = 0,
-    .cmap_num = 2,
+    .cmap_num = 1,
     .bpp = 2,
     .kern_classes = 0,
     .bitmap_format = 0,

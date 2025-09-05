@@ -6,6 +6,7 @@
 #define ANDROID_WIFI_3_BAR_PLUS "\xee\xbc\x98"
 #define ANDROID_WIFI_3_BAR_QUESTION "\xee\xbc\x97"
 #define ANDROID_WIFI_3_BAR "\xee\xbc\x96"
+#define BATTERY_ANDROID_0 "\xef\x8c\x8d"
 #define BATTERY_ANDROID_FRAME_1 "\xef\x89\x97"
 #define BATTERY_ANDROID_FRAME_2 "\xef\x89\x96"
 #define BATTERY_ANDROID_FRAME_3 "\xef\x89\x95"
