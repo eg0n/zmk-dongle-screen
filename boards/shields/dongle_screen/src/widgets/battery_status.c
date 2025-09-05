@@ -23,80 +23,76 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 #include "battery_status.h"
 
 #if IS_ENABLED(CONFIG_ZMK_DONGLE_DISPLAY_DONGLE_BATTERY)
+#define N_BATTERIES (ZMK_SPLIT_CENTRAL_PERIPHERAL_COUNT + 1)
 #define SOURCE_OFFSET 1
 #else
+#define N_BATTERIES ZMK_SPLIT_CENTRAL_PERIPHERAL_COUNT
 #define SOURCE_OFFSET 0
 #endif
+
+#define GRID_CELL_HEIGHT 30
+#define GRID_CELL_WIDTH 45
 
 static sys_slist_t widgets = SYS_SLIST_STATIC_INIT(&widgets);
 typedef struct {
     uint8_t level;
     bool usb_present;
 } battery_state_t;
-static battery_state_t
-    battery_states[ZMK_SPLIT_CENTRAL_PERIPHERAL_COUNT + SOURCE_OFFSET];
+static battery_state_t battery_states[N_BATTERIES];
 
-static void set_battery_symbol(lv_obj_t *label) {
-    char text[128];
-    size_t textpos = 0;
-    if (SOURCE_OFFSET == 0)
-        text[textpos++] = '\n';
-    for (int i = 0; i < ZMK_SPLIT_CENTRAL_PERIPHERAL_COUNT + SOURCE_OFFSET;
-         i++) {
-        battery_state_t *state = &battery_states[i];
-        char *offset = text + textpos;
-        LOG_DBG("source: %d, level: %d, usb: %d", i, state->level,
+static void
+set_battery_symbol(struct zmk_widget_dongle_battery_status *widget) {
+    for (uint8_t i = 0; i < lv_obj_get_child_cnt(widget->obj); i++) {
+        uint8_t row = i / 2;
+        uint8_t col = i % 2;
+        uint8_t battery_no = row + SOURCE_OFFSET;
+
+        lv_obj_t *child = lv_obj_get_child(widget->obj, i);
+        battery_state_t *state = &battery_states[battery_no];
+        LOG_DBG("source: %d, level: %d, usb: %d", battery_no, state->level,
                 state->usb_present);
-        if (state->usb_present)
-            textpos += sprintf(offset, BATTERY_ANDROID_FRAME_BOLT " %i\n",
-                               state->level);
-        else {
-            if (state->level == 0)
-                textpos += sprintf(
-                    offset, "#ff0000 " BATTERY_ANDROID_FRAME_QUESTION "# X\n");
-            else if (state->level < 13)
-                textpos +=
-                    sprintf(offset, "#ff0000 " BATTERY_ANDROID_0 "# %i\n",
-                            state->level);
-            else if (state->level < 25)
-                textpos +=
-                    sprintf(offset, "#ff0000 " BATTERY_ANDROID_FRAME_1 "# %i\n",
-                            state->level);
-            else if (state->level < 38)
-                textpos +=
-                    sprintf(offset, "#ffff00 " BATTERY_ANDROID_FRAME_2 "# %i\n",
-                            state->level);
-            else if (state->level < 50)
-                textpos +=
-                    sprintf(offset, "#ffff00 " BATTERY_ANDROID_FRAME_3 "# %i\n",
-                            state->level);
-            else if (state->level < 63)
-                textpos +=
-                    sprintf(offset, "#00ff00 " BATTERY_ANDROID_FRAME_4 "# %i\n",
-                            state->level);
-            else if (state->level < 75)
-                textpos +=
-                    sprintf(offset, "#00ff00 " BATTERY_ANDROID_FRAME_5 "# %i\n",
-                            state->level);
-            else if (state->level < 88)
-                textpos +=
-                    sprintf(offset, "#00ff00 " BATTERY_ANDROID_FRAME_6 "# %i\n",
-                            state->level);
-            else
-                textpos +=
-                    sprintf(offset, "#00ff00 " BATTERY_ANDROID_FRAME_FULL "# %i\n",
-                            state->level);
+
+        if (col == 0) {
+            if (state->usb_present)
+                lv_label_set_text(child, BATTERY_ANDROID_FRAME_BOLT);
+            else {
+                if (state->level == 0)
+                    lv_label_set_text(
+                        child, "#ff0000 " BATTERY_ANDROID_FRAME_QUESTION "#");
+                else if (state->level < 13)
+                    lv_label_set_text(child, "#ff0000 " BATTERY_ANDROID_0 "#");
+                else if (state->level < 25)
+                    lv_label_set_text(child,
+                                      "#ff0000 " BATTERY_ANDROID_FRAME_1 "#");
+                else if (state->level < 38)
+                    lv_label_set_text(child,
+                                      "#ffff00 " BATTERY_ANDROID_FRAME_2 "#");
+                else if (state->level < 40)
+                    lv_label_set_text(child,
+                                      "#ffff00 " BATTERY_ANDROID_FRAME_3 "#");
+                else if (state->level < 63)
+                    lv_label_set_text(child,
+                                      "#00ff00 " BATTERY_ANDROID_FRAME_4 "#");
+                else if (state->level < 75)
+                    lv_label_set_text(child,
+                                      "#00ff00 " BATTERY_ANDROID_FRAME_5 "#");
+                else if (state->level < 88)
+                    lv_label_set_text(child,
+                                      "#00ff00 " BATTERY_ANDROID_FRAME_6 "#");
+                else
+                    lv_label_set_text(
+                        child, "#00ff00 " BATTERY_ANDROID_FRAME_FULL "#");
+            }
+        } else if (col == 1) {
+            lv_label_set_text_fmt(child, "%i", state->level);
         }
     }
-    lv_label_set_text(label, text);
-    lv_obj_clear_flag(label, LV_OBJ_FLAG_HIDDEN);
-    lv_obj_move_foreground(label);
 }
 
 void battery_status_update_cb(battery_state_t *unused) {
     struct zmk_widget_dongle_battery_status *widget;
     SYS_SLIST_FOR_EACH_CONTAINER(&widgets, widget, node) {
-        set_battery_symbol(widget->obj);
+        set_battery_symbol(widget);
     }
 }
 
@@ -147,11 +143,34 @@ ZMK_SUBSCRIPTION(widget_dongle_battery_status, zmk_usb_conn_state_changed);
 
 int zmk_widget_dongle_battery_status_init(
     struct zmk_widget_dongle_battery_status *widget, lv_obj_t *parent) {
-    widget->obj = lv_label_create(parent);
-    lv_obj_set_size(widget->obj, 100, 100);
-    lv_label_set_recolor(widget->obj, true);
-    lv_obj_add_flag(widget->obj, LV_OBJ_FLAG_HIDDEN);
-    lv_obj_set_style_text_font(widget->obj, &PixelOperatorMono32, 0);
+
+    static lv_coord_t col_dsc[] = {GRID_CELL_WIDTH, GRID_CELL_WIDTH,
+                                   LV_GRID_TEMPLATE_LAST};
+    static lv_coord_t row_dsc[N_BATTERIES + 1];
+    for (uint8_t i = 0; i <= N_BATTERIES; i++)
+        row_dsc[i] = GRID_CELL_HEIGHT;
+    row_dsc[N_BATTERIES] = LV_GRID_TEMPLATE_LAST;
+
+    lv_obj_t *cont = lv_obj_create(parent);
+    lv_obj_set_grid_dsc_array(cont, col_dsc, row_dsc);
+    lv_obj_set_size(cont, 2 * GRID_CELL_WIDTH, N_BATTERIES * GRID_CELL_HEIGHT);
+    lv_obj_set_layout(cont, LV_LAYOUT_GRID);
+    widget->obj = cont;
+
+    for (uint8_t i = 0; i < 2 * N_BATTERIES; i++) {
+        uint8_t row = i / 2;
+        uint8_t col = i % 2;
+        lv_obj_t *label = lv_label_create(cont);
+        lv_obj_set_grid_cell(label, LV_GRID_ALIGN_STRETCH, col, 1,
+                             LV_GRID_ALIGN_STRETCH, row, 1);
+        lv_obj_set_style_text_font(label, &PixelOperatorMono32, 0);
+        lv_label_set_text(label, "");
+        if (col == 0) {
+            lv_label_set_recolor(label, true);
+            // https://github.com/lvgl/lv_font_conv/issues/132
+            lv_obj_set_style_translate_y(label, 8, 0);
+        }
+    }
 
     sys_slist_append(&widgets, &widget->node);
     widget_dongle_battery_status_init();

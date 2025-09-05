@@ -22,6 +22,9 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 #include <fonts.h>
 #include <material_32.h>
 
+#define GRID_CELL_HEIGHT 30
+#define GRID_CELL_WIDTH 45
+
 static sys_slist_t widgets = SYS_SLIST_STATIC_INIT(&widgets);
 
 struct output_status_state {
@@ -43,27 +46,38 @@ static struct output_status_state get_state(const zmk_event_t *_eh) {
 
 static void set_status_symbol(struct zmk_widget_output_status *widget,
                               struct output_status_state state) {
-    switch (state.selected_endpoint.transport) {
-    case ZMK_TRANSPORT_USB:
-        lv_label_set_text_fmt(widget->obj, "#00ff00 " USB "#");
-        break;
-    case ZMK_TRANSPORT_BLE:
-        if (state.active_profile_bonded) {
-            if (state.active_profile_connected) {
-                lv_label_set_text_fmt(widget->obj,
-                                      "%i #00ff00 " ANDROID_WIFI_3_BAR "#",
-                                      state.active_profile_index);
-            } else {
-                lv_label_set_text_fmt(widget->obj,
-                                      "%i #0000ff " ANDROID_WIFI_3_BAR_OFF "#",
-                                      state.active_profile_index);
+    for (uint8_t i = 0; i < lv_obj_get_child_cnt(widget->obj); i++) {
+        lv_obj_t *child = lv_obj_get_child(widget->obj, i);
+        if (i == 1) {
+            switch (state.selected_endpoint.transport) {
+            case ZMK_TRANSPORT_USB:
+                lv_label_set_text(child, "#00ff00 " USB "#");
+                break;
+            case ZMK_TRANSPORT_BLE:
+                if (state.active_profile_bonded) {
+                    if (state.active_profile_connected) {
+                        lv_label_set_text(child,
+                                          "#00ff00 " ANDROID_WIFI_3_BAR "#");
+                    } else {
+                        lv_label_set_text(
+                            child, "#0000ff " ANDROID_WIFI_3_BAR_OFF "#");
+                    }
+                } else {
+                    lv_label_set_text(
+                        child, "#ff0000 " ANDROID_WIFI_3_BAR_QUESTION "#");
+                }
+                break;
             }
-        } else {
-            lv_label_set_text_fmt(widget->obj,
-                                  "%i #ff0000 " ANDROID_WIFI_3_BAR_QUESTION "#",
-                                  state.active_profile_index);
+        } else if (i == 0) {
+            switch (state.selected_endpoint.transport) {
+            case ZMK_TRANSPORT_USB:
+                lv_label_set_text(child, "");
+                break;
+            case ZMK_TRANSPORT_BLE:
+                lv_label_set_text_fmt(child, "%i", state.active_profile_index);
+                break;
+            }
         }
-        break;
     }
 }
 
@@ -80,14 +94,31 @@ ZMK_SUBSCRIPTION(widget_output_status, zmk_endpoint_changed);
 ZMK_SUBSCRIPTION(widget_output_status, zmk_ble_active_profile_changed);
 ZMK_SUBSCRIPTION(widget_output_status, zmk_usb_conn_state_changed);
 
-// output_status.c
 int zmk_widget_output_status_init(struct zmk_widget_output_status *widget,
                                   lv_obj_t *parent) {
-    widget->obj = lv_label_create(parent);
-    lv_obj_set_size(widget->obj, 160, 60);
-    lv_obj_set_style_text_font(widget->obj, &PixelOperatorMono32, 0);
-    lv_obj_set_style_text_align(widget->obj, LV_TEXT_ALIGN_RIGHT, 0);
-    lv_label_set_recolor(widget->obj, true);
+    static lv_coord_t col_dsc[] = {GRID_CELL_WIDTH, GRID_CELL_WIDTH,
+                                   LV_GRID_TEMPLATE_LAST};
+    static lv_coord_t row_dsc[] = {GRID_CELL_HEIGHT, LV_GRID_TEMPLATE_LAST};
+
+    lv_obj_t *cont = lv_obj_create(parent);
+    lv_obj_set_grid_dsc_array(cont, col_dsc, row_dsc);
+    lv_obj_set_size(cont, 2 * GRID_CELL_WIDTH, GRID_CELL_HEIGHT);
+    lv_obj_set_layout(cont, LV_LAYOUT_GRID);
+    widget->obj = cont;
+
+    for (uint8_t i = 0; i < 2; i++) {
+        lv_obj_t *label = lv_label_create(cont);
+        lv_obj_set_grid_cell(label, LV_GRID_ALIGN_STRETCH, i, 1,
+                             LV_GRID_ALIGN_STRETCH, 0, 1);
+        lv_obj_set_style_text_font(label, &PixelOperatorMono32, 0);
+        lv_obj_set_style_text_align(label, LV_TEXT_ALIGN_RIGHT, 0);
+        lv_label_set_text(label, "");
+        if (i == 1) {
+            lv_label_set_recolor(label, true);
+            // https://github.com/lvgl/lv_font_conv/issues/132
+            lv_obj_set_style_translate_y(label, 8, 0);
+        }
+    }
     sys_slist_append(&widgets, &widget->node);
     widget_output_status_init();
     return 0;

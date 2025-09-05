@@ -62,7 +62,7 @@ lv_obj_t *zmk_display_status_screen() {
                                           screen);
     lv_obj_align(
         zmk_widget_dongle_battery_status_obj(&dongle_battery_status_widget),
-        LV_ALIGN_BOTTOM_LEFT, 0, 0);
+        LV_ALIGN_BOTTOM_LEFT, 20, -20);
 #endif
 
 #if CONFIG_DONGLE_SCREEN_WPM_ACTIVE
