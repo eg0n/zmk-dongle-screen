@@ -149,6 +149,12 @@ config DONGLE_SCREEN_BATTERY_ACTIVE
     help
       If the Battery Widget should be active or not
 
+config DONGLE_SCREEN_ANIMATION_ACTIVE
+    bool "Animation active"
+    default y
+    help
+      If the animation should be active or not
+
 config DONGLE_SCREEN_AMBIENT_LIGHT
     bool "Enable automatic brightness via ambient light sensor"
     default y
@@ -163,4 +169,12 @@ config DONGLE_SCREEN_AMBIENT_SENSOR_MAX_VALUE
     help
       Ambient light value resulting in screen maximum brightness
 
-endif
+config DONGLE_SCREEN_ANIMATION_INVERTED
+    bool "Invert display colors"
+    default y
+
+config DONGLE_SCREEN_ANIMATION_MS
+    int "Animation length in milliseconds"
+    default 960
+
+endif # SHIELD_DONGLE_SCREEN
