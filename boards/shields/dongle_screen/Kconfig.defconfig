@@ -3,9 +3,6 @@
 
 if SHIELD_DONGLE_SCREEN
 
-CONFIG_BT_CTLR_TX_PWR_PLUS_8=y
-CONFIG_ZMK_SLEEP=n
-
 choice ZMK_DISPLAY_STATUS_SCREEN
     default ZMK_DISPLAY_STATUS_SCREEN_CUSTOM
 endchoice
@@ -78,7 +75,7 @@ config DONGLE_SCREEN_FLIPPED
 
 config DONGLE_SCREEN_IDLE_TIMEOUT_S
     int "Screen idle timeout in seconds (0 = never off)"
-    default 600
+    default 900
     help
       Time in seconds after which the screen turns off when idle. 0 = never off.
 
