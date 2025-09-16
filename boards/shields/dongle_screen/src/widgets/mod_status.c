@@ -13,12 +13,12 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 static sys_slist_t widgets = SYS_SLIST_STATIC_INIT(&widgets);
 
 static void set_modifiers_label(lv_obj_t *label, zmk_mod_flags_t state) {
-    lv_label_set_text_fmt(label, "%s%s%s%s",
+    lv_label_set_text_fmt(
+        label, "%s%s%s%s",
         state & (MOD_LCTL | MOD_RCTL) ? KEYBOARD_CONTROL_KEY : "",
         state & (MOD_LSFT | MOD_RSFT) ? SHIFT : "",
         state & (MOD_LALT | MOD_RALT) ? KEYBOARD_OPTION_KEY : "",
-        state & (MOD_LGUI | MOD_RGUI) ? KEYBOARD_COMMAND_KEY : ""
-    );
+        state & (MOD_LGUI | MOD_RGUI) ? KEYBOARD_COMMAND_KEY : "");
 }
 
 static void modifiers_status_update_cb(zmk_mod_flags_t state) {

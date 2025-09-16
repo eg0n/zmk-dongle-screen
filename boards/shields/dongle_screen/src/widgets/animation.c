@@ -1,5 +1,5 @@
-#include <zephyr/kernel.h>
 #include "animation.h"
+#include <zephyr/kernel.h>
 
 LV_IMG_DECLARE(crystal_01);
 LV_IMG_DECLARE(crystal_02);
@@ -21,8 +21,9 @@ LV_IMG_DECLARE(crystal_16);
 static sys_slist_t widgets = SYS_SLIST_STATIC_INIT(&widgets);
 
 const lv_img_dsc_t *anim_imgs[] = {
-    &crystal_01, &crystal_02, &crystal_03, &crystal_04, &crystal_05, &crystal_06,
-    &crystal_07, &crystal_08, &crystal_09, &crystal_10, &crystal_11, &crystal_12,
+    &crystal_01, &crystal_02, &crystal_03, &crystal_04,
+    &crystal_05, &crystal_06, &crystal_07, &crystal_08,
+    &crystal_09, &crystal_10, &crystal_11, &crystal_12,
     &crystal_13, &crystal_14, &crystal_15, &crystal_16,
 };
 
@@ -38,12 +39,14 @@ void draw_animation(lv_obj_t *canvas) {
     lv_obj_align(art, LV_ALIGN_CENTER, 0, 0);
 }
 
-int zmk_widget_dongle_animation_init(struct zmk_widget_dongle_animation *widget, lv_obj_t *parent) {
+int zmk_widget_dongle_animation_init(struct zmk_widget_dongle_animation *widget,
+                                     lv_obj_t *parent) {
     lv_obj_t *canvas;
     widget->obj = canvas = lv_canvas_create(parent);
     lv_obj_set_size(canvas, BUFFER_SIZE, BUFFER_SIZE);
     lv_obj_align(canvas, LV_ALIGN_CENTER, 0, 0);
-    lv_canvas_set_buffer(canvas, widget->cbuf, BUFFER_SIZE, BUFFER_SIZE, LV_IMG_CF_TRUE_COLOR);
+    lv_canvas_set_buffer(canvas, widget->cbuf, BUFFER_SIZE, BUFFER_SIZE,
+                         LV_IMG_CF_TRUE_COLOR);
     lv_obj_set_style_translate_x(canvas, 0, 0);
     lv_obj_set_style_translate_y(canvas, -15, 0);
     draw_animation(canvas);
@@ -51,5 +54,8 @@ int zmk_widget_dongle_animation_init(struct zmk_widget_dongle_animation *widget,
 
     return 0;
 }
-    
-lv_obj_t *zmk_widget_dongle_animation_obj(struct zmk_widget_dongle_animation *widget) { return widget->obj; }
+
+lv_obj_t *
+zmk_widget_dongle_animation_obj(struct zmk_widget_dongle_animation *widget) {
+    return widget->obj;
+}
