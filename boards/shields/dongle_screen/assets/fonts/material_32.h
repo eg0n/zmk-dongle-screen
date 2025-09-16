@@ -23,6 +23,7 @@
 #define BLUETOOTH_CONNECTED "\xee\x86\xa8"
 #define BLUETOOTH_DISABLED "\xee\x86\xa9"
 #define BLUETOOTH_SEARCHING "\xee\x98\x8f"
+#define KEYBOARD "\xee\x8c\x92"
 #define KEYBOARD_CAPSLOCK "\xee\x8c\x98"
 #define KEYBOARD_COMMAND_KEY "\xee\xab\xa7"
 #define KEYBOARD_CONTROL_KEY "\xee\xab\xa6"
