@@ -58,7 +58,10 @@ config LV_DISP_DEF_REFR_PERIOD
 config PWM
     default y
 
-config LED
+config LED_PWM
+    default y
+
+config ZMK_BACKLIGHT
     default y
 
 config DONGLE_SCREEN_HORIZONTAL
@@ -72,49 +75,6 @@ config DONGLE_SCREEN_FLIPPED
     default n
     help
       Should the screen orientation should be flipped in horizontal or vertical orientation?
-
-config DONGLE_SCREEN_IDLE_TIMEOUT_S
-    int "Screen idle timeout in seconds (0 = never off)"
-    default 900
-    help
-      Time in seconds after which the screen turns off when idle. 0 = never off.
-
-config DONGLE_SCREEN_MAX_BRIGHTNESS
-    int "Maximum screen brightness (1-100)"
-    default 80
-    range 1 100
-    help
-        This is the brightness which is used when the dongle is powered on. This is also the maximum brightness used by the dimmer.
-
-config DONGLE_SCREEN_BRIGHTNESS_KEYBOARD_CONTROL
-    bool "Control screen brightness via keyboard"
-    default y
-    help
-      Allows controlling the screen brightness via keyboard (e.g. F23/F24).
-
-config DONGLE_SCREEN_BACKLIGHT_TOGGLE_KEYCODE
-    int "Keycode for turning the screen on and off"
-    default 113  # KC_F22
-    help
-      Keycode for turning the screen on and off (default: F22).
-
-config DONGLE_SCREEN_BRIGHTNESS_UP_KEYCODE
-    int "Keycode for increasing screen brightness"
-    default 115  # KC_F24
-    help
-      Keycode that increases the screen brightness (default: F24).
-
-config DONGLE_SCREEN_BRIGHTNESS_DOWN_KEYCODE
-    int "Keycode for decreasing screen brightness"
-    default 114  # KC_F23
-    help
-      Keycode that decreases the screen brightness (default: F23).
-
-config DONGLE_SCREEN_BRIGHTNESS_STEP
-    int "Step for brightness adjustment with keyboard"
-    default 10
-    help
-      How much brightness steps (range 0 to MAX_BRIGHTNESS) should be applied per keystroke
 
 config DONGLE_SCREEN_WPM_ACTIVE
     bool "WPM Widget active"
@@ -159,12 +119,6 @@ config DONGLE_SCREEN_AMBIENT_LIGHT
     select APDS9960
     help
       If enabled, the ambient light sensor will be used to automatically adjust screen brightness.
-
-config DONGLE_SCREEN_AMBIENT_SENSOR_MAX_VALUE
-    int "Sensor value resulting in max screen brightness"
-    default 250
-    help
-      Ambient light value resulting in screen maximum brightness
 
 config DONGLE_SCREEN_ANIMATION_INVERTED
     bool "Invert display colors"

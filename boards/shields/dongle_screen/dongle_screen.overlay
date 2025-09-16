@@ -1,5 +1,6 @@
 / {
    chosen {
       zephyr,display = &st7789;
+      zmk,backlight = &disp_bl;
   };
 };
