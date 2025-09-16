@@ -59,6 +59,7 @@ int zmk_widget_layer_status_init(struct zmk_widget_layer_status *widget,
     widget->obj = lv_label_create(parent);
     lv_obj_set_style_text_font(widget->obj, &PixelOperatorMono48, 0);
     lv_obj_set_style_text_align(widget->obj, LV_TEXT_ALIGN_RIGHT, 0);
+    lv_obj_set_style_translate_y(widget->obj, -12, 0);
     sys_slist_append(&widgets, &widget->node);
     widget_layer_status_init();
     return 0;

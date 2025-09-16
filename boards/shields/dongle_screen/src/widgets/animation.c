@@ -44,8 +44,8 @@ int zmk_widget_dongle_animation_init(struct zmk_widget_dongle_animation *widget,
     lv_obj_set_size(canvas, BUFFER_SIZE, BUFFER_SIZE);
     lv_obj_align(canvas, LV_ALIGN_CENTER, 0, 0);
     lv_canvas_set_buffer(canvas, widget->cbuf, BUFFER_SIZE, BUFFER_SIZE, LV_IMG_CF_TRUE_COLOR);
-    lv_obj_set_style_translate_x(canvas, 10, 0);
-    lv_obj_set_style_translate_y(canvas, -10, 0);
+    lv_obj_set_style_translate_x(canvas, 0, 0);
+    lv_obj_set_style_translate_y(canvas, -15, 0);
     draw_animation(canvas);
     sys_slist_append(&widgets, &widget->node);
 
