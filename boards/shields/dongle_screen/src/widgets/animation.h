@@ -1,6 +1,7 @@
 #pragma once
 
 #include <lvgl.h>
+#include <zephyr/kernel.h>
 
 #define BUFFER_SIZE 69
 

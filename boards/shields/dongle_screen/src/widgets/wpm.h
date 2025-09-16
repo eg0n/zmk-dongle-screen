@@ -9,11 +9,11 @@
 #include <lvgl.h>
 #include <zephyr/kernel.h>
 
-struct zmk_widget_wpm_status {
+struct zmk_widget_wpm {
     lv_obj_t *obj;
     sys_snode_t node;
 };
 
-int zmk_widget_wpm_status_init(struct zmk_widget_wpm_status *widget,
+int zmk_widget_wpm_init(struct zmk_widget_wpm *widget,
                                lv_obj_t *parent);
-lv_obj_t *zmk_widget_wpm_status_obj(struct zmk_widget_wpm_status *widget);
+lv_obj_t *zmk_widget_wpm_obj(struct zmk_widget_wpm *widget);

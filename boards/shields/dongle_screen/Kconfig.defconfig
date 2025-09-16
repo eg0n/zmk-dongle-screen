@@ -80,37 +80,37 @@ config DONGLE_SCREEN_WPM_ACTIVE
     bool "WPM Widget active"
     default y
     help
-      If the WPM Widget should be active or not
+      Whether WPM Widget should be active
 
 config DONGLE_SCREEN_MODIFIER_ACTIVE
     bool "Modifier Widget active"
     default y
     help
-      If the Modifier Widget should be active or not
+      Whether Modifier Widget should be active
 
 config DONGLE_SCREEN_LAYER_ACTIVE
     bool "Layer Widget active"
     default y
     help
-      If the Layer Widget should be active or not
+      Whether Layer Widget should be active
 
-config DONGLE_SCREEN_OUTPUT_ACTIVE
-    bool "Output Widget active"
+config DONGLE_SCREEN_CONNECTION_ACTIVE
+    bool "Connection Widget active"
     default y
     help
-      If the Output Widget should be active or not
+      Whether Connection Widget should be active
 
 config DONGLE_SCREEN_BATTERY_ACTIVE
     bool "Battery Widget active"
     default y
     help
-      If the Battery Widget should be active or not
+      Whether Battery Widget should be active
 
 config DONGLE_SCREEN_ANIMATION_ACTIVE
     bool "Animation active"
     default y
     help
-      If the animation should be active or not
+      Whether animation should be active
 
 config DONGLE_SCREEN_AMBIENT_LIGHT
     bool "Enable automatic brightness via ambient light sensor"

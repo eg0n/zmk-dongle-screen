@@ -17,14 +17,16 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 #include <zmk/events/layer_state_changed.h>
 #include <zmk/keymap.h>
 
+#include "layer.h"
+
 static sys_slist_t widgets = SYS_SLIST_STATIC_INIT(&widgets);
 
-struct layer_status_state {
+struct layer_state {
     uint8_t index;
     const char *label;
 };
 
-static void set_layer_symbol(lv_obj_t *label, struct layer_status_state state) {
+static void set_layer_symbol(lv_obj_t *label, struct layer_state state) {
     if (state.label == NULL)
         lv_label_set_text_fmt(label, "%i", state.index);
     else {
@@ -36,35 +38,35 @@ static void set_layer_symbol(lv_obj_t *label, struct layer_status_state state) {
     }
 }
 
-static void layer_status_update_cb(struct layer_status_state state) {
-    struct zmk_widget_layer_status *widget;
+static void layer_update_cb(struct layer_state state) {
+    struct zmk_widget_layer *widget;
     SYS_SLIST_FOR_EACH_CONTAINER(&widgets, widget, node) {
         set_layer_symbol(widget->obj, state);
     }
 }
 
-static struct layer_status_state layer_status_get_state(const zmk_event_t *eh) {
+static struct layer_state layer_get_state(const zmk_event_t *eh) {
     uint8_t index = zmk_keymap_highest_layer_active();
-    return (struct layer_status_state){.index = index,
+    return (struct layer_state){.index = index,
                                        .label = zmk_keymap_layer_name(index)};
 }
 
-ZMK_DISPLAY_WIDGET_LISTENER(widget_layer_status, struct layer_status_state,
-                            layer_status_update_cb, layer_status_get_state)
+ZMK_DISPLAY_WIDGET_LISTENER(widget_layer, struct layer_state,
+                            layer_update_cb, layer_get_state)
 
-ZMK_SUBSCRIPTION(widget_layer_status, zmk_layer_state_changed);
+ZMK_SUBSCRIPTION(widget_layer, zmk_layer_state_changed);
 
-int zmk_widget_layer_status_init(struct zmk_widget_layer_status *widget,
+int zmk_widget_layer_init(struct zmk_widget_layer *widget,
                                  lv_obj_t *parent) {
     widget->obj = lv_label_create(parent);
     lv_obj_set_style_text_font(widget->obj, &PixelOperatorMono48, 0);
     lv_obj_set_style_text_align(widget->obj, LV_TEXT_ALIGN_RIGHT, 0);
     lv_obj_set_style_translate_y(widget->obj, -12, 0);
     sys_slist_append(&widgets, &widget->node);
-    widget_layer_status_init();
+    widget_layer_init();
     return 0;
 }
 
-lv_obj_t *zmk_widget_layer_status_obj(struct zmk_widget_layer_status *widget) {
+lv_obj_t *zmk_widget_layer_obj(struct zmk_widget_layer *widget) {
     return widget->obj;
 }

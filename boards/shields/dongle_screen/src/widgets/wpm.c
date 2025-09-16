@@ -13,7 +13,7 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 #include <zmk/event_manager.h>
 #include <zmk/events/wpm_state_changed.h>
 
-#include "wpm_status.h"
+#include "wpm.h"
 #include <fonts.h>
 #include <material_32.h>
 
@@ -21,34 +21,34 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 #define GRID_CELL_WIDTH 45
 
 static sys_slist_t widgets = SYS_SLIST_STATIC_INIT(&widgets);
-struct wpm_status_state {
+struct wpm_state {
     int wpm;
 };
 
-static struct wpm_status_state get_state(const zmk_event_t *_eh) {
+static struct wpm_state get_state(const zmk_event_t *_eh) {
     const struct zmk_wpm_state_changed *ev = as_zmk_wpm_state_changed(_eh);
 
-    return (struct wpm_status_state){.wpm = ev ? ev->state : 0};
+    return (struct wpm_state){.wpm = ev ? ev->state : 0};
 }
 
-static void set_wpm(struct zmk_widget_wpm_status *widget,
-                    struct wpm_status_state state) {
+static void set_wpm(struct zmk_widget_wpm *widget,
+                    struct wpm_state state) {
     lv_obj_t *child = lv_obj_get_child(widget->obj, 1);
     lv_label_set_text_fmt(child, "%i", state.wpm);
 }
 
-static void wpm_status_update_cb(struct wpm_status_state state) {
-    struct zmk_widget_wpm_status *widget;
+static void wpm_update_cb(struct wpm_state state) {
+    struct zmk_widget_wpm *widget;
     SYS_SLIST_FOR_EACH_CONTAINER(&widgets, widget, node) {
         set_wpm(widget, state);
     }
 }
 
-ZMK_DISPLAY_WIDGET_LISTENER(widget_wpm_status, struct wpm_status_state,
-                            wpm_status_update_cb, get_state)
-ZMK_SUBSCRIPTION(widget_wpm_status, zmk_wpm_state_changed);
+ZMK_DISPLAY_WIDGET_LISTENER(widget_wpm, struct wpm_state,
+                            wpm_update_cb, get_state)
+ZMK_SUBSCRIPTION(widget_wpm, zmk_wpm_state_changed);
 
-int zmk_widget_wpm_status_init(struct zmk_widget_wpm_status *widget,
+int zmk_widget_wpm_init(struct zmk_widget_wpm *widget,
                                lv_obj_t *parent) {
     static lv_coord_t col_dsc[] = {GRID_CELL_WIDTH, GRID_CELL_WIDTH,
                                    LV_GRID_TEMPLATE_LAST};
@@ -74,10 +74,10 @@ int zmk_widget_wpm_status_init(struct zmk_widget_wpm_status *widget,
         }
     }
     sys_slist_append(&widgets, &widget->node);
-    widget_wpm_status_init();
+    widget_wpm_init();
     return 0;
 }
 
-lv_obj_t *zmk_widget_wpm_status_obj(struct zmk_widget_wpm_status *widget) {
+lv_obj_t *zmk_widget_wpm_obj(struct zmk_widget_wpm *widget) {
     return widget->obj;
 }
