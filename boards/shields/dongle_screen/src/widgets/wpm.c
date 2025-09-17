@@ -69,7 +69,7 @@ int zmk_widget_wpm_init(struct zmk_widget_wpm *widget,
         lv_label_set_text(label, "");
         if (i == 0) {
             // https://github.com/lvgl/lv_font_conv/issues/132
-            lv_label_set_text(label, KEYBOARD);
+            lv_label_set_text(label, KEYBOARD_ALT);
             lv_obj_set_style_translate_y(label, 8, 0);
         }
     }

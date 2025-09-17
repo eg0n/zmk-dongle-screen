@@ -1,5 +1,3 @@
-#pragma once
-
 #define ANDROID_WIFI_3_BAR_ALERT "\xee\xbc\x9b"
 #define ANDROID_WIFI_3_BAR_LOCK "\xee\xbc\x9a"
 #define ANDROID_WIFI_3_BAR_OFF "\xee\xbc\x99"
@@ -23,7 +21,7 @@
 #define BLUETOOTH_CONNECTED "\xee\x86\xa8"
 #define BLUETOOTH_DISABLED "\xee\x86\xa9"
 #define BLUETOOTH_SEARCHING "\xee\x98\x8f"
-#define KEYBOARD "\xee\x8c\x92"
+#define KEYBOARD_ALT "\xef\x80\xa8"
 #define KEYBOARD_CAPSLOCK "\xee\x8c\x98"
 #define KEYBOARD_COMMAND_KEY "\xee\xab\xa7"
 #define KEYBOARD_CONTROL_KEY "\xee\xab\xa6"
