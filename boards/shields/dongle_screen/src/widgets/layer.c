@@ -48,16 +48,15 @@ static void layer_update_cb(struct layer_state state) {
 static struct layer_state layer_get_state(const zmk_event_t *eh) {
     uint8_t index = zmk_keymap_highest_layer_active();
     return (struct layer_state){.index = index,
-                                       .label = zmk_keymap_layer_name(index)};
+                                .label = zmk_keymap_layer_name(index)};
 }
 
-ZMK_DISPLAY_WIDGET_LISTENER(widget_layer, struct layer_state,
-                            layer_update_cb, layer_get_state)
+ZMK_DISPLAY_WIDGET_LISTENER(widget_layer, struct layer_state, layer_update_cb,
+                            layer_get_state)
 
 ZMK_SUBSCRIPTION(widget_layer, zmk_layer_state_changed);
 
-int zmk_widget_layer_init(struct zmk_widget_layer *widget,
-                                 lv_obj_t *parent) {
+int zmk_widget_layer_init(struct zmk_widget_layer *widget, lv_obj_t *parent) {
     widget->obj = lv_label_create(parent);
     lv_obj_set_style_text_font(widget->obj, &PixelOperatorMono48, 0);
     lv_obj_set_style_text_align(widget->obj, LV_TEXT_ALIGN_RIGHT, 0);

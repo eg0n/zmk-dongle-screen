@@ -63,29 +63,26 @@ lv_obj_t *zmk_display_status_screen() {
 #endif
 
 #if CONFIG_DONGLE_SCREEN_BATTERY_ACTIVE
-    zmk_widget_dongle_battery_init(&dongle_battery_widget,
-                                          screen);
-    lv_obj_align(
-        zmk_widget_dongle_battery_obj(&dongle_battery_widget),
-        LV_ALIGN_BOTTOM_LEFT, 20, -20);
+    zmk_widget_dongle_battery_init(&dongle_battery_widget, screen);
+    lv_obj_align(zmk_widget_dongle_battery_obj(&dongle_battery_widget),
+                 LV_ALIGN_BOTTOM_LEFT, 20, -20);
 #endif
 
 #if CONFIG_DONGLE_SCREEN_WPM_ACTIVE
     zmk_widget_wpm_init(&wpm_widget, screen);
-    lv_obj_align(zmk_widget_wpm_obj(&wpm_widget),
-                 LV_ALIGN_TOP_LEFT, 20, 20);
+    lv_obj_align(zmk_widget_wpm_obj(&wpm_widget), LV_ALIGN_TOP_LEFT, 20, 20);
 #endif
 
 #if CONFIG_DONGLE_SCREEN_LAYER_ACTIVE
     zmk_widget_layer_init(&layer_widget, screen);
-    lv_obj_align(zmk_widget_layer_obj(&layer_widget),
-                 LV_ALIGN_BOTTOM_RIGHT, -20, -20);
+    lv_obj_align(zmk_widget_layer_obj(&layer_widget), LV_ALIGN_BOTTOM_RIGHT,
+                 -20, -20);
 #endif
 
 #if CONFIG_DONGLE_SCREEN_MODIFIER_ACTIVE
     zmk_widget_modifiers_init(&modifiers_widget, screen);
-    lv_obj_align(zmk_widget_modifiers_obj(&modifiers_widget),
-                 LV_ALIGN_TOP_MID, 0, 20);
+    lv_obj_align(zmk_widget_modifiers_obj(&modifiers_widget), LV_ALIGN_LEFT_MID,
+                 20, 0);
 #endif
 
 #if CONFIG_DONGLE_SCREEN_ANIMATION_ACTIVE

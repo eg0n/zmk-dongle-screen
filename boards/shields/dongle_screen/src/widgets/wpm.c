@@ -27,12 +27,10 @@ struct wpm_state {
 
 static struct wpm_state get_state(const zmk_event_t *_eh) {
     const struct zmk_wpm_state_changed *ev = as_zmk_wpm_state_changed(_eh);
-
     return (struct wpm_state){.wpm = ev ? ev->state : 0};
 }
 
-static void set_wpm(struct zmk_widget_wpm *widget,
-                    struct wpm_state state) {
+static void set_wpm(struct zmk_widget_wpm *widget, struct wpm_state state) {
     lv_obj_t *child = lv_obj_get_child(widget->obj, 1);
     lv_label_set_text_fmt(child, "%i", state.wpm);
 }
@@ -44,12 +42,11 @@ static void wpm_update_cb(struct wpm_state state) {
     }
 }
 
-ZMK_DISPLAY_WIDGET_LISTENER(widget_wpm, struct wpm_state,
-                            wpm_update_cb, get_state)
+ZMK_DISPLAY_WIDGET_LISTENER(widget_wpm, struct wpm_state, wpm_update_cb,
+                            get_state)
 ZMK_SUBSCRIPTION(widget_wpm, zmk_wpm_state_changed);
 
-int zmk_widget_wpm_init(struct zmk_widget_wpm *widget,
-                               lv_obj_t *parent) {
+int zmk_widget_wpm_init(struct zmk_widget_wpm *widget, lv_obj_t *parent) {
     static lv_coord_t col_dsc[] = {GRID_CELL_WIDTH, GRID_CELL_WIDTH,
                                    LV_GRID_TEMPLATE_LAST};
     static lv_coord_t row_dsc[] = {GRID_CELL_HEIGHT, LV_GRID_TEMPLATE_LAST};

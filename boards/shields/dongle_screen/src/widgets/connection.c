@@ -52,7 +52,8 @@ static struct connection_state get_state(const zmk_event_t *eh) {
         conn.transport = ep_ev->endpoint.transport;
     } else if ((ble_ev = as_zmk_ble_active_profile_changed(eh)) != NULL) {
         conn.active_profile_index = ble_ev->index;
-        conn.active_profile_connected = zmk_ble_profile_is_connected(ble_ev->index);
+        conn.active_profile_connected =
+            zmk_ble_profile_is_connected(ble_ev->index);
         conn.active_profile_bonded = !zmk_ble_profile_is_open(ble_ev->index);
     } else if ((usb_ev = as_zmk_usb_conn_state_changed(eh)) != NULL) {
         conn.usb_is_hid_ready = usb_ev->conn_state == ZMK_USB_CONN_HID;
@@ -98,9 +99,7 @@ static void set_symbol(struct zmk_widget_connection *widget) {
 
 static void connection_update_cb(struct connection_state state) {
     struct zmk_widget_connection *widget;
-    SYS_SLIST_FOR_EACH_CONTAINER(&widgets, widget, node) {
-        set_symbol(widget);
-    }
+    SYS_SLIST_FOR_EACH_CONTAINER(&widgets, widget, node) { set_symbol(widget); }
 }
 
 ZMK_DISPLAY_WIDGET_LISTENER(widget_connection, struct connection_state,
@@ -110,7 +109,7 @@ ZMK_SUBSCRIPTION(widget_connection, zmk_ble_active_profile_changed);
 ZMK_SUBSCRIPTION(widget_connection, zmk_usb_conn_state_changed);
 
 int zmk_widget_connection_init(struct zmk_widget_connection *widget,
-                                  lv_obj_t *parent) {
+                               lv_obj_t *parent) {
     static lv_coord_t col_dsc[] = {GRID_CELL_WIDTH, GRID_CELL_WIDTH,
                                    LV_GRID_TEMPLATE_LAST};
     static lv_coord_t row_dsc[] = {GRID_CELL_HEIGHT, LV_GRID_TEMPLATE_LAST};
@@ -139,7 +138,6 @@ int zmk_widget_connection_init(struct zmk_widget_connection *widget,
     return 0;
 }
 
-lv_obj_t *
-zmk_widget_connection_obj(struct zmk_widget_connection *widget) {
+lv_obj_t *zmk_widget_connection_obj(struct zmk_widget_connection *widget) {
     return widget->obj;
 }

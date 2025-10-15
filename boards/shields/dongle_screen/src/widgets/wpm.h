@@ -14,6 +14,5 @@ struct zmk_widget_wpm {
     sys_snode_t node;
 };
 
-int zmk_widget_wpm_init(struct zmk_widget_wpm *widget,
-                               lv_obj_t *parent);
+int zmk_widget_wpm_init(struct zmk_widget_wpm *widget, lv_obj_t *parent);
 lv_obj_t *zmk_widget_wpm_obj(struct zmk_widget_wpm *widget);

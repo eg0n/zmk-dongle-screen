@@ -15,5 +15,5 @@ struct zmk_widget_connection {
 };
 
 int zmk_widget_connection_init(struct zmk_widget_connection *widget,
-                                  lv_obj_t *parent);
+                               lv_obj_t *parent);
 lv_obj_t *zmk_widget_connection_obj(struct zmk_widget_connection *widget);

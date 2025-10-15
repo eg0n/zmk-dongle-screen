@@ -10,6 +10,5 @@ struct zmk_widget_modifiers {
 };
 
 int zmk_widget_modifiers_init(struct zmk_widget_modifiers *widget,
-                                     lv_obj_t *parent);
-lv_obj_t *
-zmk_widget_modifiers_obj(struct zmk_widget_modifiers *widget);
+                              lv_obj_t *parent);
+lv_obj_t *zmk_widget_modifiers_obj(struct zmk_widget_modifiers *widget);

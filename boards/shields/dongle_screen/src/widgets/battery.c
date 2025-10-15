@@ -40,8 +40,7 @@ typedef struct {
 } battery_state_t;
 static battery_state_t battery_states[N_BATTERIES];
 
-static void
-set_battery_symbol(struct zmk_widget_dongle_battery *widget) {
+static void set_battery_symbol(struct zmk_widget_dongle_battery *widget) {
     for (uint8_t i = 0; i < lv_obj_get_child_cnt(widget->obj); i++) {
         uint8_t row = i / 2;
         uint8_t col = i % 2;
@@ -127,8 +126,7 @@ battery_state_t *battery_get_state(const zmk_event_t *eh) {
 ZMK_DISPLAY_WIDGET_LISTENER(widget_dongle_battery, battery_state_t *,
                             battery_update_cb, battery_get_state)
 
-ZMK_SUBSCRIPTION(widget_dongle_battery,
-                 zmk_peripheral_battery_state_changed);
+ZMK_SUBSCRIPTION(widget_dongle_battery, zmk_peripheral_battery_state_changed);
 
 #if IS_ENABLED(CONFIG_ZMK_DONGLE_DISPLAY_DONGLE_BATTERY)
 #if !IS_ENABLED(CONFIG_ZMK_SPLIT) || IS_ENABLED(CONFIG_ZMK_SPLIT_ROLE_CENTRAL)
@@ -141,8 +139,8 @@ ZMK_SUBSCRIPTION(widget_dongle_battery, zmk_usb_conn_state_changed);
           IS_ENABLED(CONFIG_ZMK_SPLIT_ROLE_CENTRAL) */
 #endif /* IS_ENABLED(CONFIG_ZMK_DONGLE_DISPLAY_DONGLE_BATTERY) */
 
-int zmk_widget_dongle_battery_init(
-    struct zmk_widget_dongle_battery *widget, lv_obj_t *parent) {
+int zmk_widget_dongle_battery_init(struct zmk_widget_dongle_battery *widget,
+                                   lv_obj_t *parent) {
 
     static lv_coord_t col_dsc[] = {GRID_CELL_WIDTH, GRID_CELL_WIDTH,
                                    LV_GRID_TEMPLATE_LAST};
@@ -177,7 +175,7 @@ int zmk_widget_dongle_battery_init(
     return 0;
 }
 
-lv_obj_t *zmk_widget_dongle_battery_obj(
-    struct zmk_widget_dongle_battery *widget) {
+lv_obj_t *
+zmk_widget_dongle_battery_obj(struct zmk_widget_dongle_battery *widget) {
     return widget->obj;
 }
