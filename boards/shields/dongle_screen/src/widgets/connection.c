@@ -28,53 +28,68 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 static sys_slist_t widgets = SYS_SLIST_STATIC_INIT(&widgets);
 
 struct connection_state {
-    struct zmk_endpoint_instance selected_endpoint;
+    enum zmk_transport transport;
     int active_profile_index;
     bool active_profile_connected;
     bool active_profile_bonded;
     bool usb_is_hid_ready;
 };
 
-static struct connection_state get_state(const zmk_event_t *_eh) {
-    return (struct connection_state){
-        .selected_endpoint = zmk_endpoints_selected(), // 0 = USB , 1 = BLE
-        .active_profile_index = zmk_ble_active_profile_index(),
-        .active_profile_connected = zmk_ble_active_profile_is_connected(),
-        .active_profile_bonded = !zmk_ble_active_profile_is_open(),
-        .usb_is_hid_ready = zmk_usb_is_hid_ready()};
+static struct connection_state conn;
+
+static struct connection_state get_state(const zmk_event_t *eh) {
+    const struct zmk_endpoint_changed *ep_ev = NULL;
+    const struct zmk_ble_active_profile_changed *ble_ev = NULL;
+    const struct zmk_usb_conn_state_changed *usb_ev = NULL;
+
+    if (eh == NULL) {
+        conn.usb_is_hid_ready = zmk_usb_is_hid_ready();
+        conn.transport = zmk_endpoints_selected().transport;
+        conn.active_profile_index = zmk_ble_active_profile_index();
+        conn.active_profile_connected = zmk_ble_active_profile_is_connected();
+        conn.active_profile_bonded = !zmk_ble_active_profile_is_open();
+    } else if ((ep_ev = as_zmk_endpoint_changed(eh)) != NULL) {
+        conn.transport = ep_ev->endpoint.transport;
+    } else if ((ble_ev = as_zmk_ble_active_profile_changed(eh)) != NULL) {
+        conn.active_profile_index = ble_ev->index;
+        conn.active_profile_connected = zmk_ble_profile_is_connected(ble_ev->index);
+        conn.active_profile_bonded = !zmk_ble_profile_is_open(ble_ev->index);
+    } else if ((usb_ev = as_zmk_usb_conn_state_changed(eh)) != NULL) {
+        conn.usb_is_hid_ready = usb_ev->conn_state == ZMK_USB_CONN_HID;
+    }
+    return conn;
 }
 
-static void set_symbol(struct zmk_widget_connection *widget,
-                              struct connection_state state) {
+static void set_symbol(struct zmk_widget_connection *widget) {
     for (uint8_t i = 0; i < lv_obj_get_child_cnt(widget->obj); i++) {
         lv_obj_t *child = lv_obj_get_child(widget->obj, i);
         if (i == 1) {
-            switch (state.selected_endpoint.transport) {
+            switch (conn.transport) {
             case ZMK_TRANSPORT_USB:
                 lv_label_set_text(child, "#00ff00 " USB "#");
                 break;
             case ZMK_TRANSPORT_BLE:
-                if (state.active_profile_bonded) {
-                    if (state.active_profile_connected) {
+                if (conn.active_profile_bonded) {
+                    if (conn.active_profile_connected) {
                         lv_label_set_text(child,
                                           "#00ff00 " ANDROID_WIFI_3_BAR "#");
                     } else {
                         lv_label_set_text(
-                            child, "#0000ff " ANDROID_WIFI_3_BAR_OFF "#");
+                            child, "#ff0000 " ANDROID_WIFI_3_BAR_OFF "#");
                     }
                 } else {
                     lv_label_set_text(
-                        child, "#ff0000 " ANDROID_WIFI_3_BAR_QUESTION "#");
+                        child, "#0000ff " ANDROID_WIFI_3_BAR_QUESTION "#");
                 }
                 break;
             }
         } else if (i == 0) {
-            switch (state.selected_endpoint.transport) {
+            switch (conn.transport) {
             case ZMK_TRANSPORT_USB:
                 lv_label_set_text(child, "");
                 break;
             case ZMK_TRANSPORT_BLE:
-                lv_label_set_text_fmt(child, "%i", state.active_profile_index);
+                lv_label_set_text_fmt(child, "%i", conn.active_profile_index);
                 break;
             }
         }
@@ -84,7 +99,7 @@ static void set_symbol(struct zmk_widget_connection *widget,
 static void connection_update_cb(struct connection_state state) {
     struct zmk_widget_connection *widget;
     SYS_SLIST_FOR_EACH_CONTAINER(&widgets, widget, node) {
-        set_symbol(widget, state);
+        set_symbol(widget);
     }
 }
 
