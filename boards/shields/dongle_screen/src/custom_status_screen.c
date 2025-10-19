@@ -18,7 +18,7 @@ static struct zmk_widget_layer layer_widget;
 
 #if CONFIG_DONGLE_SCREEN_BATTERY_ACTIVE
 #include "widgets/battery.h"
-static struct zmk_widget_dongle_battery dongle_battery_widget;
+static struct zmk_widget_battery battery_widget;
 #endif
 
 #if CONFIG_DONGLE_SCREEN_WPM_ACTIVE
@@ -33,7 +33,12 @@ static struct zmk_widget_modifiers modifiers_widget;
 
 #if CONFIG_DONGLE_SCREEN_ANIMATION_ACTIVE
 #include "widgets/animation.h"
-static struct zmk_widget_dongle_animation animation_widget;
+static struct zmk_widget_animation animation_widget;
+#endif
+
+#if CONFIG_DONGLE_SCREEN_CAPS_ACTIVE
+#include "widgets/caps.h"
+static struct zmk_widget_caps caps_widget;
 #endif
 
 #include <zephyr/logging/log.h>
@@ -63,9 +68,9 @@ lv_obj_t *zmk_display_status_screen() {
 #endif
 
 #if CONFIG_DONGLE_SCREEN_BATTERY_ACTIVE
-    zmk_widget_dongle_battery_init(&dongle_battery_widget, screen);
-    lv_obj_align(zmk_widget_dongle_battery_obj(&dongle_battery_widget),
-                 LV_ALIGN_BOTTOM_LEFT, 20, -20);
+    zmk_widget_battery_init(&battery_widget, screen);
+    lv_obj_align(zmk_widget_battery_obj(&battery_widget), LV_ALIGN_BOTTOM_LEFT,
+                 20, -20);
 #endif
 
 #if CONFIG_DONGLE_SCREEN_WPM_ACTIVE
@@ -86,9 +91,14 @@ lv_obj_t *zmk_display_status_screen() {
 #endif
 
 #if CONFIG_DONGLE_SCREEN_ANIMATION_ACTIVE
-    zmk_widget_dongle_animation_init(&animation_widget, screen);
-    lv_obj_align(zmk_widget_dongle_animation_obj(&animation_widget),
-                 LV_ALIGN_CENTER, 0, 0);
+    zmk_widget_animation_init(&animation_widget, screen);
+    lv_obj_align(zmk_widget_animation_obj(&animation_widget), LV_ALIGN_CENTER,
+                 0, 0);
+#endif
+
+#if CONFIG_DONGLE_SCREEN_CAPS_ACTIVE
+    zmk_widget_caps_init(&caps_widget, screen);
+    lv_obj_align(zmk_widget_caps_obj(&caps_widget), LV_ALIGN_RIGHT_MID, -20, 0);
 #endif
 
     return screen;

@@ -9,12 +9,11 @@
 #include <lvgl.h>
 #include <zephyr/kernel.h>
 
-struct zmk_widget_dongle_battery {
+struct zmk_widget_battery {
     sys_snode_t node;
     lv_obj_t *obj;
 };
 
-int zmk_widget_dongle_battery_init(struct zmk_widget_dongle_battery *widget,
-                                   lv_obj_t *parent);
-lv_obj_t *
-zmk_widget_dongle_battery_obj(struct zmk_widget_dongle_battery *widget);
+int zmk_widget_battery_init(struct zmk_widget_battery *widget,
+                            lv_obj_t *parent);
+lv_obj_t *zmk_widget_battery_obj(struct zmk_widget_battery *widget);

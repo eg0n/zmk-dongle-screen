@@ -39,8 +39,8 @@ void draw_animation(lv_obj_t *canvas) {
     lv_obj_align(art, LV_ALIGN_CENTER, 0, 0);
 }
 
-int zmk_widget_dongle_animation_init(struct zmk_widget_dongle_animation *widget,
-                                     lv_obj_t *parent) {
+int zmk_widget_animation_init(struct zmk_widget_animation *widget,
+                              lv_obj_t *parent) {
     lv_obj_t *canvas;
     widget->obj = canvas = lv_canvas_create(parent);
     lv_obj_set_size(canvas, BUFFER_SIZE, BUFFER_SIZE);
@@ -55,7 +55,6 @@ int zmk_widget_dongle_animation_init(struct zmk_widget_dongle_animation *widget,
     return 0;
 }
 
-lv_obj_t *
-zmk_widget_dongle_animation_obj(struct zmk_widget_dongle_animation *widget) {
+lv_obj_t *zmk_widget_animation_obj(struct zmk_widget_animation *widget) {
     return widget->obj;
 }

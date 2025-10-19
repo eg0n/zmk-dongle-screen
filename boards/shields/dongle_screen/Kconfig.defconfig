@@ -112,6 +112,13 @@ config DONGLE_SCREEN_ANIMATION_ACTIVE
     help
       Whether animation should be active
 
+config DONGLE_SCREEN_CAPS_ACTIVE
+    bool "Caps indicator active"
+    select DT_HAS_ZMK_BEHAVIOR_CAPS_WORD_ENABLED
+    default y
+    help
+      Whether caps indicator should be active
+
 config DONGLE_SCREEN_AMBIENT_LIGHT
     bool "Enable automatic brightness via ambient light sensor"
     default y
