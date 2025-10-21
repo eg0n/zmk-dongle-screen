@@ -62,11 +62,11 @@ int zmk_widget_wpm_init(struct zmk_widget_wpm *widget, lv_obj_t *parent) {
         lv_obj_set_grid_cell(label, LV_GRID_ALIGN_STRETCH, i, 1,
                              LV_GRID_ALIGN_STRETCH, 0, 1);
         lv_obj_set_style_text_font(label, &PixelOperatorMono32, 0);
-        lv_obj_set_style_text_align(label, LV_TEXT_ALIGN_LEFT, 0);
+        lv_obj_set_style_text_align(label, LV_TEXT_ALIGN_CENTER, 0);
         lv_label_set_text(label, "");
         if (i == 0) {
-            // https://github.com/lvgl/lv_font_conv/issues/132
             lv_label_set_text(label, KEYBOARD_ALT);
+            // https://github.com/lvgl/lv_font_conv/issues/132
             lv_obj_set_style_translate_y(label, 8, 0);
         }
     }

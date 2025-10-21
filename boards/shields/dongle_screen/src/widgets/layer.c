@@ -30,9 +30,10 @@ static void set_layer_symbol(lv_obj_t *label, struct layer_state state) {
     if (state.label == NULL)
         lv_label_set_text_fmt(label, "%i", state.index);
     else {
-        char text[13] = {};
-        for (uint8_t i = 0; i < sizeof(text); i++) {
-            text[i] = toupper(state.label[i]);
+        char text[10] = {};
+        strncpy(text, state.label, sizeof(text));
+        for (uint8_t i = 0; i < strlen(text); i++) {
+            text[i] = toupper(text[i]);
         }
         lv_label_set_text(label, text);
     }
@@ -58,9 +59,9 @@ ZMK_SUBSCRIPTION(widget_layer, zmk_layer_state_changed);
 
 int zmk_widget_layer_init(struct zmk_widget_layer *widget, lv_obj_t *parent) {
     widget->obj = lv_label_create(parent);
-    lv_obj_set_style_text_font(widget->obj, &PixelOperatorMono48, 0);
-    lv_obj_set_style_text_align(widget->obj, LV_TEXT_ALIGN_RIGHT, 0);
-    lv_obj_set_style_translate_y(widget->obj, -12, 0);
+    lv_obj_set_size(widget->obj, 120, 30);
+    lv_obj_set_style_text_font(widget->obj, &PixelOperatorMono32, 0);
+    lv_obj_set_style_text_align(widget->obj, LV_TEXT_ALIGN_CENTER, 0);
     sys_slist_append(&widgets, &widget->node);
     widget_layer_init();
     return 0;

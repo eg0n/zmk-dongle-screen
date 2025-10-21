@@ -57,30 +57,30 @@ static void set_battery_symbol(struct zmk_widget_battery *widget) {
             else {
                 if (state->level == 0)
                     lv_label_set_text(
-                        child, "#ff0000 " BATTERY_ANDROID_FRAME_QUESTION "#");
+                        child, "#202020 " BATTERY_ANDROID_FRAME_QUESTION "#");
                 else if (state->level < 13)
-                    lv_label_set_text(child, "#ff0000 " BATTERY_ANDROID_0 "#");
+                    lv_label_set_text(child, "#cc0080 " BATTERY_ANDROID_0 "#");
                 else if (state->level < 25)
                     lv_label_set_text(child,
-                                      "#ff0000 " BATTERY_ANDROID_FRAME_1 "#");
+                                      "#cc0080 " BATTERY_ANDROID_FRAME_1 "#");
                 else if (state->level < 38)
                     lv_label_set_text(child,
-                                      "#ffff00 " BATTERY_ANDROID_FRAME_2 "#");
+                                      "#cccc80 " BATTERY_ANDROID_FRAME_2 "#");
                 else if (state->level < 40)
                     lv_label_set_text(child,
-                                      "#ffff00 " BATTERY_ANDROID_FRAME_3 "#");
+                                      "#cccc80 " BATTERY_ANDROID_FRAME_3 "#");
                 else if (state->level < 63)
                     lv_label_set_text(child,
-                                      "#00ff00 " BATTERY_ANDROID_FRAME_4 "#");
+                                      "#00cc80 " BATTERY_ANDROID_FRAME_4 "#");
                 else if (state->level < 75)
                     lv_label_set_text(child,
-                                      "#00ff00 " BATTERY_ANDROID_FRAME_5 "#");
+                                      "#00cc80 " BATTERY_ANDROID_FRAME_5 "#");
                 else if (state->level < 88)
                     lv_label_set_text(child,
-                                      "#00ff00 " BATTERY_ANDROID_FRAME_6 "#");
+                                      "#00cc80 " BATTERY_ANDROID_FRAME_6 "#");
                 else
                     lv_label_set_text(
-                        child, "#00ff00 " BATTERY_ANDROID_FRAME_FULL "#");
+                        child, "#00cc80 " BATTERY_ANDROID_FRAME_FULL "#");
             }
         } else if (col == 1) {
             lv_label_set_text_fmt(child, "%i", state->level);
@@ -162,6 +162,7 @@ int zmk_widget_battery_init(struct zmk_widget_battery *widget,
         lv_obj_set_grid_cell(label, LV_GRID_ALIGN_STRETCH, col, 1,
                              LV_GRID_ALIGN_STRETCH, row, 1);
         lv_obj_set_style_text_font(label, &PixelOperatorMono32, 0);
+        lv_obj_set_style_text_align(label, LV_TEXT_ALIGN_CENTER, 0);
         lv_label_set_text(label, "");
         if (col == 0) {
             lv_label_set_recolor(label, true);

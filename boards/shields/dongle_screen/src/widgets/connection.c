@@ -67,27 +67,27 @@ static void set_symbol(struct zmk_widget_connection *widget) {
         if (i == 1) {
             switch (conn.transport) {
             case ZMK_TRANSPORT_USB:
-                lv_label_set_text(child, "#00ff00 " USB "#");
+                lv_label_set_text(child, "#00cc80 " USB "#");
                 break;
             case ZMK_TRANSPORT_BLE:
                 if (conn.active_profile_bonded) {
                     if (conn.active_profile_connected) {
                         lv_label_set_text(child,
-                                          "#00ff00 " ANDROID_WIFI_3_BAR "#");
+                                          "#00cc80 " ANDROID_WIFI_3_BAR "#");
                     } else {
                         lv_label_set_text(
-                            child, "#ff0000 " ANDROID_WIFI_3_BAR_OFF "#");
+                            child, "#202020 " ANDROID_WIFI_3_BAR_OFF "#");
                     }
                 } else {
                     lv_label_set_text(
-                        child, "#0000ff " ANDROID_WIFI_3_BAR_QUESTION "#");
+                        child, "#cccc80 " ANDROID_WIFI_3_BAR_QUESTION "#");
                 }
                 break;
             }
         } else if (i == 0) {
             switch (conn.transport) {
             case ZMK_TRANSPORT_USB:
-                lv_label_set_text(child, "");
+                lv_label_set_text(child, "#202020 0#");
                 break;
             case ZMK_TRANSPORT_BLE:
                 lv_label_set_text_fmt(child, "%i", conn.active_profile_index);
@@ -125,10 +125,10 @@ int zmk_widget_connection_init(struct zmk_widget_connection *widget,
         lv_obj_set_grid_cell(label, LV_GRID_ALIGN_STRETCH, i, 1,
                              LV_GRID_ALIGN_STRETCH, 0, 1);
         lv_obj_set_style_text_font(label, &PixelOperatorMono32, 0);
-        lv_obj_set_style_text_align(label, LV_TEXT_ALIGN_RIGHT, 0);
+        lv_obj_set_style_text_align(label, LV_TEXT_ALIGN_CENTER, 0);
         lv_label_set_text(label, "");
+        lv_label_set_recolor(label, true);
         if (i == 1) {
-            lv_label_set_recolor(label, true);
             // https://github.com/lvgl/lv_font_conv/issues/132
             lv_obj_set_style_translate_y(label, 8, 0);
         }
