@@ -66,7 +66,7 @@ static void set_battery_symbol(struct zmk_widget_battery *widget) {
                 else if (state->level < 38)
                     lv_label_set_text(child,
                                       "#cccc80 " BATTERY_ANDROID_FRAME_2 "#");
-                else if (state->level < 40)
+                else if (state->level < 50)
                     lv_label_set_text(child,
                                       "#cccc80 " BATTERY_ANDROID_FRAME_3 "#");
                 else if (state->level < 63)
