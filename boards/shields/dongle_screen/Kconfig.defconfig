@@ -11,7 +11,7 @@ config ZMK_DISPLAY_STATUS_SCREEN_CUSTOM
     select LV_USE_LABEL
     select LV_USE_IMG
     select LV_USE_CANVAS
-    select LV_USE_ANIMIMG 
+    select LV_USE_ANIMIMG
     select LV_USE_ANIMATION
     select LV_USE_LINE
     select LV_USE_GRID
@@ -82,6 +82,12 @@ config DONGLE_SCREEN_WPM_ACTIVE
     help
       Whether WPM Widget should be active
 
+config DONGLE_SCREEN_ALS_ACTIVE
+    bool "ALS Widget active"
+    default n
+    help
+      Whether ALS Widget should be active
+
 config DONGLE_SCREEN_MODIFIER_ACTIVE
     bool "Modifier Widget active"
     default y
@@ -115,10 +121,25 @@ config DONGLE_SCREEN_ANIMATION_ACTIVE
 config DONGLE_SCREEN_AMBIENT_LIGHT
     bool "Enable automatic brightness via ambient light sensor"
     default y
-    select SENSOR
-    select APDS9960
+    select ZMK_AMBIENT_LIGHT
     help
-      If enabled, the ambient light sensor will be used to automatically adjust screen brightness.
+      Uses the ZMK core ambient light service (CONFIG_ZMK_AMBIENT_LIGHT)
+      to sample the APDS9960 and drive screen brightness automatically
+      via zmk_backlight_set_brt(). The sensor and its zmk-als alias are
+      declared in the seeeduino_xiao_ble board overlay.
+
+      Idle blanking and brightness key behaviors are handled by
+      CONFIG_ZMK_BACKLIGHT_AUTO_OFF_IDLE and the &ds_bl behavior
+      respectively — no custom thread or hardcoded keycodes needed.
+
+config DONGLE_SCREEN_ALS_LUX_MAX
+    int "Lux ceiling for auto-brightness (tune for sensor placement)"
+    default 15360
+    range 10 65535
+    depends on DONGLE_SCREEN_AMBIENT_LIGHT
+    help
+      Lux value that maps to 100% brightness. Lower this if the sensor
+      sits behind translucent plastic or the enclosure attenuates light.
 
 config DONGLE_SCREEN_ANIMATION_INVERTED
     bool "Invert display colors"

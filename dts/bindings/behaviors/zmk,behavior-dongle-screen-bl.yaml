@@ -1,0 +1,8 @@
+# Copyright (c) 2024 The ZMK Contributors
+# SPDX-License-Identifier: MIT
+
+description: Dongle screen brightness behavior
+
+compatible: "zmk,behavior-dongle-screen-bl"
+
+include: two_param.yaml

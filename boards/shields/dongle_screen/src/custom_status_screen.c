@@ -41,6 +41,12 @@ static struct zmk_widget_animation animation_widget;
 static struct zmk_widget_caps caps_widget;
 #endif
 
+#if CONFIG_DONGLE_SCREEN_ALS_ACTIVE
+#include "widgets/als.h"
+static struct zmk_widget_als als_widget;
+#endif
+
+
 #include <zephyr/logging/log.h>
 LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
@@ -94,6 +100,11 @@ lv_obj_t *zmk_display_status_screen() {
     zmk_widget_layer_init(&layer_widget, screen);
     lv_obj_align(zmk_widget_layer_obj(&layer_widget), LV_ALIGN_BOTTOM_RIGHT, -5,
                  -35);
+#endif
+
+#if CONFIG_DONGLE_SCREEN_ALS_ACTIVE
+    zmk_widget_als_init(&als_widget, screen);
+    lv_obj_align(zmk_widget_als_obj(&als_widget), LV_ALIGN_BOTTOM_MID, 0, 0);
 #endif
 
     return screen;

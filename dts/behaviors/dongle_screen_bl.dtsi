@@ -1,0 +1,32 @@
+/*
+ * Copyright (c) 2024 The ZMK Contributors
+ * SPDX-License-Identifier: MIT
+ *
+ * dts/behaviors/dongle_screen_bl.dtsi
+ *
+ * Instantiates the dongle-screen brightness behavior node.
+ * Include this from your keymap or the shield overlay.
+ *
+ * Usage in keymap:
+ *   #include <behaviors/dongle_screen_bl.dtsi>
+ *   #include <dt-bindings/zmk/dongle_screen_bl.h>
+ *
+ *   / { keymap { layer_0 { bindings = <
+ *       &ds_bl DS_BL_INC   // brightness up
+ *       &ds_bl DS_BL_DEC   // brightness down
+ *       &ds_bl DS_BL_TOG   // toggle on/off
+ *   >; }; }; };
+ */
+
+#include <dt-bindings/zmk/dongle_screen_bl.h>
+
+/ {
+    behaviors {
+        /omit-if-no-ref/
+        ds_bl: dongle_screen_bl {
+            compatible = "zmk,behavior-dongle-screen-bl";
+            #binding-cells = <2>;
+            display-name = "Dongle Screen Brightness";
+        };
+    };
+};
