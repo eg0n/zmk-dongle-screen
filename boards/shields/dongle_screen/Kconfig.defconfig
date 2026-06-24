@@ -146,7 +146,15 @@ config DONGLE_SCREEN_ANIMATION_INVERTED
     default y
 
 config DONGLE_SCREEN_ANIMATION_MS
-    int "Animation length in milliseconds"
+    int "Brightness fade animation duration (milliseconds)"
     default 960
+    range 100 3000
+    help
+      Maximum duration of a backlight brightness fade animation.
+      Shorter fades (small brightness delta) are proportionally
+      faster; this value is the ceiling for a 100% delta.
+
+      Set to 0 to disable smooth fading (instant brightness changes).
+      Applies to ALS auto-brightness updates and &ds_bl key presses.
 
 endif # SHIELD_DONGLE_SCREEN
