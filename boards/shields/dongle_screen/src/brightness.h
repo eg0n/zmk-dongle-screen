@@ -1,4 +1,6 @@
 /*
+ * Copyright (c) 2024 The ZMK Contributors
+ *
  * SPDX-License-Identifier: MIT
  *
  * boards/shields/dongle_screen/src/brightness.h
@@ -23,3 +25,9 @@
  * @param target_pct  Target brightness percent [0, 100].
  */
 void dongle_screen_fade_to_brt(uint8_t target_pct);
+
+/**
+ * @brief Wake the screen when a peripheral reconnects
+ * Called by battery widget when it detects a peripheral reconnection
+ */
+void brightness_wake_screen_on_reconnect(void);

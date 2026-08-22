@@ -26,18 +26,21 @@ choice ZMK_DISPLAY_WORK_QUEUE
     default ZMK_DISPLAY_WORK_QUEUE_DEDICATED
 endchoice
 
-config ZMK_DISPLAY_DEDICATED_THREAD_STACK_SIZE
-    default 4096
-
 choice ST7789V_PIXEL_FORMAT
 	default ST7789V_RGB565
 endchoice
 
 config LV_Z_VDB_SIZE
-    default 100
+    default 50
+
+config LV_Z_DOUBLE_VDB
+    default y
+
+config LV_Z_FLUSH_THREAD
+    default y
 
 config LV_Z_MEM_POOL_SIZE
-    default 10000
+    default 16384
 
 config LV_DPI_DEF
     default 261
@@ -52,8 +55,6 @@ endchoice
 config LV_COLOR_16_SWAP
 	default y
 
-config LV_DISP_DEF_REFR_PERIOD
-    default 20
 
 config PWM
     default y
@@ -126,7 +127,7 @@ config DONGLE_SCREEN_AMBIENT_LIGHT
       Uses the ZMK core ambient light service (CONFIG_ZMK_AMBIENT_LIGHT)
       to sample the APDS9960 and drive screen brightness automatically
       via zmk_backlight_set_brt(). The sensor and its zmk-als alias are
-      declared in the seeeduino_xiao_ble board overlay.
+      declared in the xiao_ble board overlay.
 
       Idle blanking and brightness key behaviors are handled by
       CONFIG_ZMK_BACKLIGHT_AUTO_OFF_IDLE and the &ds_bl behavior
