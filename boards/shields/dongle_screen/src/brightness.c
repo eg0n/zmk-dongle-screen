@@ -176,6 +176,11 @@ static void als_brightness_cb(uint32_t lux)
         100U,
         (uint32_t)CONFIG_DONGLE_SCREEN_ALS_LUX_MAX);
 
+    /* Dead-band: ignore sub-5% changes to avoid constant fading */
+    int delta = (int)target - (int)zmk_backlight_get_brt();
+    if (delta < 0) delta = -delta;
+    if (delta < 5) return;
+
     dongle_screen_fade_to_brt(target);
 }
 
