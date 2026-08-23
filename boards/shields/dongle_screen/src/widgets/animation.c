@@ -20,7 +20,7 @@ LV_IMG_DECLARE(crystal_16);
 
 static sys_slist_t widgets = SYS_SLIST_STATIC_INIT(&widgets);
 
-const lv_img_dsc_t *anim_imgs[] = {
+const lv_image_dsc_t *anim_imgs[] = {
     &crystal_01, &crystal_02, &crystal_03, &crystal_04,
     &crystal_05, &crystal_06, &crystal_07, &crystal_08,
     &crystal_09, &crystal_10, &crystal_11, &crystal_12,
@@ -46,7 +46,7 @@ int zmk_widget_animation_init(struct zmk_widget_animation *widget,
     lv_obj_set_size(canvas, BUFFER_SIZE, BUFFER_SIZE);
     lv_obj_align(canvas, LV_ALIGN_CENTER, 0, 0);
     lv_canvas_set_buffer(canvas, widget->cbuf, BUFFER_SIZE, BUFFER_SIZE,
-                         LV_IMG_CF_TRUE_COLOR);
+                         LV_COLOR_FORMAT_RGB565);
     lv_obj_set_style_translate_x(canvas, 0, 0);
     lv_obj_set_style_translate_y(canvas, -15, 0);
     draw_animation(canvas);

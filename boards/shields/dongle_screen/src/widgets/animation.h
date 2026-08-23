@@ -12,10 +12,14 @@
     IS_ENABLED(CONFIG_SCREEN_ANIMATION_INVERTED) ? lv_color_white()            \
                                                  : lv_color_black()
 
+/* LVGL 9 canvas buffers are raw bytes in the canvas' colour format, not an
+ * array of lv_color_t (which is 3 bytes wide regardless of colour depth). */
 struct zmk_widget_animation {
     sys_snode_t node;
     lv_obj_t *obj;
-    lv_color_t cbuf[BUFFER_SIZE * BUFFER_SIZE];
+    uint8_t cbuf[LV_CANVAS_BUF_SIZE(BUFFER_SIZE, BUFFER_SIZE, 16,
+                                    LV_DRAW_BUF_STRIDE_ALIGN)]
+        __aligned(LV_DRAW_BUF_ALIGN);
 };
 
 void draw_animation(lv_obj_t *canvas);

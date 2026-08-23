@@ -63,13 +63,16 @@ const LV_ATTRIBUTE_MEM_ALIGN LV_ATTRIBUTE_LARGE_CONST LV_ATTRIBUTE_IMG_CRYSTAL_0
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 };
 
-const lv_img_dsc_t crystal_01 = {
-    .header.cf = LV_IMG_CF_INDEXED_1BIT,
-    .header.always_zero = 0,
-    .header.reserved = 0,
-    .header.w = 68,
-    .header.h = 69,
-    .data_size = 620,
+const lv_image_dsc_t crystal_01 = {
+    .header =
+        {
+            .magic = LV_IMAGE_HEADER_MAGIC,
+            .cf = LV_COLOR_FORMAT_I1,
+            .w = 68,
+            .h = 69,
+            .stride = 9,
+        },
+    .data_size = 629,
     .data = crystal_01_map,
 };
 
@@ -131,13 +134,16 @@ const LV_ATTRIBUTE_MEM_ALIGN LV_ATTRIBUTE_LARGE_CONST LV_ATTRIBUTE_IMG_CRYSTAL_0
 	0x00, 0x60, 0x00, 0x00, 0x00, 0x00,
 };
 
-const lv_img_dsc_t crystal_02 = {
-    .header.cf = LV_IMG_CF_INDEXED_1BIT,
-    .header.always_zero = 0,
-    .header.reserved = 0,
-    .header.w = 68,
-    .header.h = 69,
-    .data_size = 620,
+const lv_image_dsc_t crystal_02 = {
+    .header =
+        {
+            .magic = LV_IMAGE_HEADER_MAGIC,
+            .cf = LV_COLOR_FORMAT_I1,
+            .w = 68,
+            .h = 69,
+            .stride = 9,
+        },
+    .data_size = 629,
     .data = crystal_02_map,
 };
 
@@ -200,13 +206,16 @@ const LV_ATTRIBUTE_MEM_ALIGN LV_ATTRIBUTE_LARGE_CONST LV_ATTRIBUTE_IMG_CRYSTAL_0
 
 };
 
-const lv_img_dsc_t crystal_03 = {
-    .header.cf = LV_IMG_CF_INDEXED_1BIT,
-    .header.always_zero = 0,
-    .header.reserved = 0,
-    .header.w = 68,
-    .header.h = 69,
-    .data_size = 620,
+const lv_image_dsc_t crystal_03 = {
+    .header =
+        {
+            .magic = LV_IMAGE_HEADER_MAGIC,
+            .cf = LV_COLOR_FORMAT_I1,
+            .w = 68,
+            .h = 69,
+            .stride = 9,
+        },
+    .data_size = 629,
     .data = crystal_03_map,
 };
 
@@ -268,13 +277,16 @@ const LV_ATTRIBUTE_MEM_ALIGN LV_ATTRIBUTE_LARGE_CONST LV_ATTRIBUTE_IMG_CRYSTAL_0
 	0x00, 0x60, 0x00, 0x00, 0x00, 0x00,
 };
 
-const lv_img_dsc_t crystal_04 = {
-    .header.cf = LV_IMG_CF_INDEXED_1BIT,
-    .header.always_zero = 0,
-    .header.reserved = 0,
-    .header.w = 68,
-    .header.h = 69,
-    .data_size = 620,
+const lv_image_dsc_t crystal_04 = {
+    .header =
+        {
+            .magic = LV_IMAGE_HEADER_MAGIC,
+            .cf = LV_COLOR_FORMAT_I1,
+            .w = 68,
+            .h = 69,
+            .stride = 9,
+        },
+    .data_size = 629,
     .data = crystal_04_map,
 };
 
@@ -336,13 +348,16 @@ const LV_ATTRIBUTE_MEM_ALIGN LV_ATTRIBUTE_LARGE_CONST LV_ATTRIBUTE_IMG_CRYSTAL_0
 	0x00, 0x60, 0x00, 0x00, 0x00, 0x00,
 };
 
-const lv_img_dsc_t crystal_05 = {
-    .header.cf = LV_IMG_CF_INDEXED_1BIT,
-    .header.always_zero = 0,
-    .header.reserved = 0,
-    .header.w = 68,
-    .header.h = 69,
-    .data_size = 620,
+const lv_image_dsc_t crystal_05 = {
+    .header =
+        {
+            .magic = LV_IMAGE_HEADER_MAGIC,
+            .cf = LV_COLOR_FORMAT_I1,
+            .w = 68,
+            .h = 69,
+            .stride = 9,
+        },
+    .data_size = 629,
     .data = crystal_05_map,
 };
 
@@ -404,13 +419,16 @@ const LV_ATTRIBUTE_MEM_ALIGN LV_ATTRIBUTE_LARGE_CONST LV_ATTRIBUTE_IMG_CRYSTAL_0
 	0x00, 0x60, 0x00, 0x00, 0x00, 0x00,
 };
 
-const lv_img_dsc_t crystal_06 = {
-    .header.cf = LV_IMG_CF_INDEXED_1BIT,
-    .header.always_zero = 0,
-    .header.reserved = 0,
-    .header.w = 68,
-    .header.h = 69,
-    .data_size = 620,
+const lv_image_dsc_t crystal_06 = {
+    .header =
+        {
+            .magic = LV_IMAGE_HEADER_MAGIC,
+            .cf = LV_COLOR_FORMAT_I1,
+            .w = 68,
+            .h = 69,
+            .stride = 9,
+        },
+    .data_size = 629,
     .data = crystal_06_map,
 };
 
@@ -472,13 +490,16 @@ const LV_ATTRIBUTE_MEM_ALIGN LV_ATTRIBUTE_LARGE_CONST LV_ATTRIBUTE_IMG_CRYSTAL_0
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 };
 
-const lv_img_dsc_t crystal_07 = {
-    .header.cf = LV_IMG_CF_INDEXED_1BIT,
-    .header.always_zero = 0,
-    .header.reserved = 0,
-    .header.w = 68,
-    .header.h = 69,
-    .data_size = 620,
+const lv_image_dsc_t crystal_07 = {
+    .header =
+        {
+            .magic = LV_IMAGE_HEADER_MAGIC,
+            .cf = LV_COLOR_FORMAT_I1,
+            .w = 68,
+            .h = 69,
+            .stride = 9,
+        },
+    .data_size = 629,
     .data = crystal_07_map,
 };
 
@@ -540,13 +561,16 @@ const LV_ATTRIBUTE_MEM_ALIGN LV_ATTRIBUTE_LARGE_CONST LV_ATTRIBUTE_IMG_CRYSTAL_0
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 };
 
-const lv_img_dsc_t crystal_08 = {
-    .header.cf = LV_IMG_CF_INDEXED_1BIT,
-    .header.always_zero = 0,
-    .header.reserved = 0,
-    .header.w = 68,
-    .header.h = 69,
-    .data_size = 620,
+const lv_image_dsc_t crystal_08 = {
+    .header =
+        {
+            .magic = LV_IMAGE_HEADER_MAGIC,
+            .cf = LV_COLOR_FORMAT_I1,
+            .w = 68,
+            .h = 69,
+            .stride = 9,
+        },
+    .data_size = 629,
     .data = crystal_08_map,
 };
 
@@ -608,13 +632,16 @@ const LV_ATTRIBUTE_MEM_ALIGN LV_ATTRIBUTE_LARGE_CONST LV_ATTRIBUTE_IMG_CRYSTAL_0
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 };
 
-const lv_img_dsc_t crystal_09 = {
-    .header.cf = LV_IMG_CF_INDEXED_1BIT,
-    .header.always_zero = 0,
-    .header.reserved = 0,
-    .header.w = 68,
-    .header.h = 69,
-    .data_size = 620,
+const lv_image_dsc_t crystal_09 = {
+    .header =
+        {
+            .magic = LV_IMAGE_HEADER_MAGIC,
+            .cf = LV_COLOR_FORMAT_I1,
+            .w = 68,
+            .h = 69,
+            .stride = 9,
+        },
+    .data_size = 629,
     .data = crystal_09_map,
 };
 
@@ -676,13 +703,16 @@ const LV_ATTRIBUTE_MEM_ALIGN LV_ATTRIBUTE_LARGE_CONST LV_ATTRIBUTE_IMG_CRYSTAL_1
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 };
 
-const lv_img_dsc_t crystal_10 = {
-    .header.cf = LV_IMG_CF_INDEXED_1BIT,
-    .header.always_zero = 0,
-    .header.reserved = 0,
-    .header.w = 68,
-    .header.h = 69,
-    .data_size = 620,
+const lv_image_dsc_t crystal_10 = {
+    .header =
+        {
+            .magic = LV_IMAGE_HEADER_MAGIC,
+            .cf = LV_COLOR_FORMAT_I1,
+            .w = 68,
+            .h = 69,
+            .stride = 9,
+        },
+    .data_size = 629,
     .data = crystal_10_map,
 };
 
@@ -744,13 +774,16 @@ const LV_ATTRIBUTE_MEM_ALIGN LV_ATTRIBUTE_LARGE_CONST LV_ATTRIBUTE_IMG_CRYSTAL_1
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 };
 
-const lv_img_dsc_t crystal_11 = {
-    .header.cf = LV_IMG_CF_INDEXED_1BIT,
-    .header.always_zero = 0,
-    .header.reserved = 0,
-    .header.w = 68,
-    .header.h = 69,
-    .data_size = 620,
+const lv_image_dsc_t crystal_11 = {
+    .header =
+        {
+            .magic = LV_IMAGE_HEADER_MAGIC,
+            .cf = LV_COLOR_FORMAT_I1,
+            .w = 68,
+            .h = 69,
+            .stride = 9,
+        },
+    .data_size = 629,
     .data = crystal_11_map,
 };
 
@@ -812,13 +845,16 @@ const LV_ATTRIBUTE_MEM_ALIGN LV_ATTRIBUTE_LARGE_CONST LV_ATTRIBUTE_IMG_CRYSTAL_1
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 };
 
-const lv_img_dsc_t crystal_12 = {
-    .header.cf = LV_IMG_CF_INDEXED_1BIT,
-    .header.always_zero = 0,
-    .header.reserved = 0,
-    .header.w = 68,
-    .header.h = 69,
-    .data_size = 620,
+const lv_image_dsc_t crystal_12 = {
+    .header =
+        {
+            .magic = LV_IMAGE_HEADER_MAGIC,
+            .cf = LV_COLOR_FORMAT_I1,
+            .w = 68,
+            .h = 69,
+            .stride = 9,
+        },
+    .data_size = 629,
     .data = crystal_12_map,
 };
 
@@ -880,13 +916,16 @@ const LV_ATTRIBUTE_MEM_ALIGN LV_ATTRIBUTE_LARGE_CONST LV_ATTRIBUTE_IMG_CRYSTAL_1
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 };
 
-const lv_img_dsc_t crystal_13 = {
-    .header.cf = LV_IMG_CF_INDEXED_1BIT,
-    .header.always_zero = 0,
-    .header.reserved = 0,
-    .header.w = 68,
-    .header.h = 69,
-    .data_size = 620,
+const lv_image_dsc_t crystal_13 = {
+    .header =
+        {
+            .magic = LV_IMAGE_HEADER_MAGIC,
+            .cf = LV_COLOR_FORMAT_I1,
+            .w = 68,
+            .h = 69,
+            .stride = 9,
+        },
+    .data_size = 629,
     .data = crystal_13_map,
 };
 
@@ -948,13 +987,16 @@ const LV_ATTRIBUTE_MEM_ALIGN LV_ATTRIBUTE_LARGE_CONST LV_ATTRIBUTE_IMG_CRYSTAL_1
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 };
 
-const lv_img_dsc_t crystal_14 = {
-    .header.cf = LV_IMG_CF_INDEXED_1BIT,
-    .header.always_zero = 0,
-    .header.reserved = 0,
-    .header.w = 68,
-    .header.h = 69,
-    .data_size = 620,
+const lv_image_dsc_t crystal_14 = {
+    .header =
+        {
+            .magic = LV_IMAGE_HEADER_MAGIC,
+            .cf = LV_COLOR_FORMAT_I1,
+            .w = 68,
+            .h = 69,
+            .stride = 9,
+        },
+    .data_size = 629,
     .data = crystal_14_map,
 };
 
@@ -1016,13 +1058,16 @@ const LV_ATTRIBUTE_MEM_ALIGN LV_ATTRIBUTE_LARGE_CONST LV_ATTRIBUTE_IMG_CRYSTAL_1
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 };
 
-const lv_img_dsc_t crystal_15 = {
-    .header.cf = LV_IMG_CF_INDEXED_1BIT,
-    .header.always_zero = 0,
-    .header.reserved = 0,
-    .header.w = 68,
-    .header.h = 69,
-    .data_size = 620,
+const lv_image_dsc_t crystal_15 = {
+    .header =
+        {
+            .magic = LV_IMAGE_HEADER_MAGIC,
+            .cf = LV_COLOR_FORMAT_I1,
+            .w = 68,
+            .h = 69,
+            .stride = 9,
+        },
+    .data_size = 629,
     .data = crystal_15_map,
 };
 
@@ -1084,12 +1129,15 @@ const LV_ATTRIBUTE_MEM_ALIGN LV_ATTRIBUTE_LARGE_CONST LV_ATTRIBUTE_IMG_CRYSTAL_1
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 };
 
-const lv_img_dsc_t crystal_16 = {
-    .header.cf = LV_IMG_CF_INDEXED_1BIT,
-    .header.always_zero = 0,
-    .header.reserved = 0,
-    .header.w = 68,
-    .header.h = 69,
-    .data_size = 620,
+const lv_image_dsc_t crystal_16 = {
+    .header =
+        {
+            .magic = LV_IMAGE_HEADER_MAGIC,
+            .cf = LV_COLOR_FORMAT_I1,
+            .w = 68,
+            .h = 69,
+            .stride = 9,
+        },
+    .data_size = 629,
     .data = crystal_16_map,
 };

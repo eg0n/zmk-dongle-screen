@@ -44,7 +44,7 @@ static struct connection_state get_state(const zmk_event_t *eh) {
 
     if (eh == NULL) {
         conn.usb_is_hid_ready = zmk_usb_is_hid_ready();
-        conn.transport = zmk_endpoints_selected().transport;
+        conn.transport = zmk_endpoint_get_selected().transport;
         conn.active_profile_index = zmk_ble_active_profile_index();
         conn.active_profile_connected = zmk_ble_active_profile_is_connected();
         conn.active_profile_bonded = !zmk_ble_active_profile_is_open();
