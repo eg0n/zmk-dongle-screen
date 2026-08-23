@@ -86,6 +86,10 @@ static void fade_thread_fn(void *a, void *b, void *c)
     while (1) {
         k_msgq_get(&fade_msgq, &req, K_FOREVER);
 
+        if (!zmk_backlight_is_on()) {
+            continue;
+        }
+
         if (req.from == req.to) {
             zmk_backlight_set_brt(req.to);
             continue;
@@ -118,6 +122,15 @@ static void fade_thread_fn(void *a, void *b, void *c)
                 break;
             }
 
+            /* Abandon the fade if the display went off underneath us.
+             * zmk_backlight_set_brt() sets state.on back to true, and the
+             * activity state is already idle by then, so no further
+             * activity_state_changed event would arrive to switch it off
+             * again -- the screen would stay lit until the next wake. */
+            if (!zmk_backlight_is_on()) {
+                goto next_req;
+            }
+
             uint32_t t256   = ((uint32_t)i * 256U) / (uint32_t)steps;
             uint32_t eased  = ease_in_out_256(t256);
             int      interp = (int)req.from + (diff * (int)eased) / 256;
@@ -132,9 +145,11 @@ static void fade_thread_fn(void *a, void *b, void *c)
         }
 
         /* Guarantee the target is reached */
-        if (last != req.to) {
+        if (last != req.to && zmk_backlight_is_on()) {
             zmk_backlight_set_brt(req.to);
         }
+
+next_req:;
     }
 }
 
